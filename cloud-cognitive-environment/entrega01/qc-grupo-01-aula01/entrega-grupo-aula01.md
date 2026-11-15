@@ -1,21 +1,25 @@
-# Entrega Aula 01 — Grupo <NN>
+# Entrega 01 — Aula 1 (Fundamentos & IaC) — Grupo 01
 
-**Disciplina:** Cloud & Cognitive Environments — FIAP MBA AI Engineering & Multi-Agents
-**Turma:** <código da sua turma>
-**Data de entrega:** <DD/MM/AAAA>
+**Disciplina:** Cloud & Cognitive Environments
+**Professor:** Isaías Silva de Britto
+**Turma:** 6AIER
+**Data de entrega:** 22/11/2026
 
 ## Grupo
 
 | # | Nome completo | GitHub | E-mail FIAP |
 |---|---------------|--------|-------------|
-| 1 | Guilherme Pires | gguilhermepires | RM379110@fiap.com.br |
+| 1 | Cinara Nubia Silva (RM 379045) | — | rm379045@fiap.com.br |
+| 2 | Guilherme Augusto Veiga Pires (RM 379110) | gguilhermepires | rm379110@fiap.com.br |
+| 3 | Somario Canuto da Silva (RM 379214) | — | rm379214@fiap.com.br |
 
 ## Distribuição do trabalho
 
 | Membro | Nível assumido | Item específico |
 |--------|----------------|-----------------|
-| Guilherme Pires | 🟢 N1 + 🟡 N2 + 🔴 N3 (bônus) | Todos os exercícios: 1.1–1.4, 2.1–2.3, 3.1–3.3 e reflexão |
-
+| Cinara Nubia Silva | 🟢 N1 | Exercícios 1.1–1.4 (modelos de serviço, 6 Rs, SLA, IAM) |
+| Somario Canuto da Silva | 🟡 N2 | Exercícios 2.1–2.3 (arquitetura e diagrama, comparativo de custos, migração) |
+| Guilherme Augusto Veiga Pires | 🔴 N3 (bônus) + reflexão | Exercícios 3.1–3.3 (Terraform, CloudFormation, multi-cloud) e reflexão coletiva; revisão final do documento |
 
 ---
 

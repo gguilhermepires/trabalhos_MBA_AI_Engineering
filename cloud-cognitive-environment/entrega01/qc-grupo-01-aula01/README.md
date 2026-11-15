@@ -1,4 +1,4 @@
-# Entrega 01 — Aula 01 (Fundamentos & IaC) — Grupo <NN>
+# Entrega 01 — Aula 01 (Fundamentos & IaC) — Grupo 01
 
 Conteúdo deste ZIP:
 
