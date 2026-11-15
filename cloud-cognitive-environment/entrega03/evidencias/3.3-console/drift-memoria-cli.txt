@@ -1,0 +1,30 @@
+# O que o Terraform declara (lab/terraform/lambda.tf): memory_size = 256, timeout = 15
+22:  timeout       = 15
+23:  memory_size   = 256
+34:    ignore_changes = [filename, source_code_hash]
+
+# ANTES (real, na AWS)
+{
+    "Memory": 256,
+    "Timeout": 15
+}
+
+# Mudança manual: 256 -> 512 MB (equivale a editar General configuration no console)
+{
+    "Memory": 512,
+    "Timeout": 15
+}
+
+# DEPOIS (real, na AWS)
+{
+    "Memory": 512,
+    "Timeout": 15
+}
+
+# Revertido ao valor do Terraform (o que um 'terraform apply' faria)
+{
+    "Memory": 256
+}
+{
+    "Memory": 256
+}

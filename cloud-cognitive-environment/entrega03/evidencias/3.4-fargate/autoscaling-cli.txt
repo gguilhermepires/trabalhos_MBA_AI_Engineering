@@ -1,0 +1,7 @@
+{
+    "ScalableTargetARN": "arn:aws:application-autoscaling:us-east-1:924438851703:scalable-target/0ec5208dab753dd64341ae3b49ec3214de0c"
+}
+--- policy
+arn:aws:autoscaling:us-east-1:924438851703:scalingPolicy:208dab75-3dd6-4341-ae3b-49ec3214de0c:resource/ecs/service/qc-aula03-uco7x2-cluster/produtos-api:policyName/qc-aula03-api-cpu60
+--- describe
+service/qc-aula03-uco7x2-cluster/produtos-api	1	4

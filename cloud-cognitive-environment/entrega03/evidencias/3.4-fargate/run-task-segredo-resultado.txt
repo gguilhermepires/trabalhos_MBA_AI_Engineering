@@ -1,0 +1,6 @@
+{
+    "status": "STOPPED",
+    "stop": "EssentialContainerExited",
+    "exitCode": 0,
+    "reason": null
+}

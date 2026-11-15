@@ -1,0 +1,3 @@
+categoria=moveis&nome=cadeira&preco_max=1500 -> 3 [('Cadeira Ergonômica DXRacer', 1499.9), ('Cadeira Gamer Vermelha', 1299.0), ('Cadeira Home Office Confortável', 799.0)]
+nome=galaxy+s24 -> 1 [('Smartphone Samsung Galaxy S24', 3999.0)]
+nome=cafe -> 2 [('Cafeteira Nespresso Essenza Mini', 499.0), ('Cafeteira Italiana 6 Xícaras', 89.9)]

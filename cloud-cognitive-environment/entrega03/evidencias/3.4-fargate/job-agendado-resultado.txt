@@ -1,0 +1,9 @@
+{
+    "def": "arn:aws:ecs:us-east-1:924438851703:task-definition/qc-aula03-uco7x2-produtos-api:2",
+    "started": "2026-11-13T00:53:41.846000+00:00",
+    "stopped": "2026-11-13T00:54:04.919000+00:00",
+    "code": "EssentialContainerExited",
+    "reason": "Essential container in task exited",
+    "exit": 0,
+    "grp": "family:qc-aula03-uco7x2-produtos-api"
+}

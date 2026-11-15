@@ -1,0 +1,3 @@
+filter @type = "REPORT"
+| stats count() as chamadas, avg(@duration) as media_ms, pct(@duration, 95) as p95_ms,
+        max(@maxMemoryUsed / 1000 / 1000) as memoria_mb, sum(strcontains(@message, "Init Duration")) as frias

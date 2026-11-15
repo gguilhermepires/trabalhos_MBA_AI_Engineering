@@ -1,0 +1,33 @@
+# Chamadas à Lambda publicada (v3-frete) em 2026-11-13T00:06:51Z
+
+GET /frete?origem=01001-000&destino=01310100&peso=2,5
+{"origem": "01001000", "destino": "01310100", "peso_kg": 2.5, "faixa": "mesma_regiao", "valor_brl": 19.5, "prazo_dias": 2}
+-> HTTP 200
+
+GET /frete?origem=01001000&destino=20040020&peso=2.5
+{"origem": "01001000", "destino": "20040020", "peso_kg": 2.5, "faixa": "regiao_distante", "valor_brl": 47.5, "prazo_dias": 7}
+-> HTTP 200
+
+GET /frete?origem=01001000&destino=80010000&peso=10
+{"origem": "01001000", "destino": "80010000", "peso_kg": 10.0, "faixa": "regiao_distante", "valor_brl": 85.0, "prazo_dias": 7}
+-> HTTP 200
+
+GET /frete?origem=01001000&destino=abc&peso=1
+{"erro": "origem e destino devem ser CEPs com 8 dígitos"}
+-> HTTP 400
+
+GET /frete?origem=01001000&destino=20040020&peso=50
+{"erro": "peso deve estar entre 0.1 e 30.0 kg"}
+-> HTTP 400
+
+GET /frete?origem=01001000&destino=20040020
+{"erro": "peso deve ser um número em kg"}
+-> HTTP 400
+
+GET /produtos?categoria=moveis
+{"total": 4, "produtos": [{"id": 1, "nome": "Cadeira Ergonômica DXRacer", "descricao": "Cadeira de escritório com apoio lombar regulável e encosto de cabeça", "categoria": "moveis", "preco": 1499.9, "estoque": 15}, {"id": 6, "nome": "Mesa de Escritório com Regulagem de Altura", "descricao": "Mesa em pé com motor elétrico e tampo 140x70cm", "categoria": "moveis", "preco": 2899.0, "estoque": 5}, {"id": 7, "nome": "Cadeira Gamer Vermelha", "descricao": "Cadeira giratória com encosto reclinável e apoio para braços", "categoria": "moveis", "preco": 1299.0, "estoque": 20}, {"id": 14, "nome": "Cadeira Home Office Confortável", "descricao": "Cadeira giratória com rodízios e regulagem de altura", "categoria": "moveis", "preco": 799.0, "estoque": 10}]}
+-> HTTP 200
+
+GET /health
+{"status": "ok", "service": "qc-catalogo", "source": "s3"}
+-> HTTP 200

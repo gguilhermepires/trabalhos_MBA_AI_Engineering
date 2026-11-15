@@ -1,0 +1,1 @@
+arn:aws:scheduler:us-east-1:924438851703:schedule/default/qc-aula03-job-recomendacoes

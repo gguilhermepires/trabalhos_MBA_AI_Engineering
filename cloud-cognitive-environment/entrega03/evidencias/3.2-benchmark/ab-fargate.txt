@@ -1,0 +1,55 @@
+# ab -n 1000 -c 50 (do Mac, 2026-11-13T00:23:14Z)
+# alvo: tarefa Fargate 0,25 vCPU/0,5 GB (HTTP, porta 8080, sem load balancer)
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 54.224.240.204 (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        uvicorn
+Server Hostname:        54.224.240.204
+Server Port:            8080
+
+Document Path:          /produtos?categoria=moveis
+Document Length:        715 bytes
+
+Concurrency Level:      50
+Time taken for tests:   22.423 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      860000 bytes
+HTML transferred:       715000 bytes
+Requests per second:    44.60 [#/sec] (mean)
+Time per request:       1121.144 [ms] (mean)
+Time per request:       22.423 [ms] (mean, across all concurrent requests)
+Transfer rate:          37.45 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:      113  118   3.1    118     130
+Processing:   184  976 439.2    912    2501
+Waiting:      182  948 429.3    882    2498
+Total:        299 1094 439.6   1030    2619
+
+Percentage of the requests served within a certain time (ms)
+  50%   1030
+  66%   1290
+  75%   1395
+  80%   1453
+  90%   1706
+  95%   1983
+  98%   2100
+  99%   2298
+ 100%   2619 (longest request)

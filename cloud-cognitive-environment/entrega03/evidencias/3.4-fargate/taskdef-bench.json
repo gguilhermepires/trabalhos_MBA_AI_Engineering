@@ -1,0 +1,7 @@
+{"family":"qc-aula03-uco7x2-produtos-api","requiresCompatibilities":["FARGATE"],"networkMode":"awsvpc","cpu":"256","memory":"512",
+ "executionRoleArn":"arn:aws:iam::924438851703:role/LabRole","taskRoleArn":"arn:aws:iam::924438851703:role/LabRole",
+ "runtimePlatform":{"operatingSystemFamily":"LINUX","cpuArchitecture":"X86_64"},
+ "containerDefinitions":[{"name":"produtos-api","image":"924438851703.dkr.ecr.us-east-1.amazonaws.com/produtos-api:bench1","essential":true,
+  "portMappings":[{"containerPort":8080,"protocol":"tcp"}],
+  "environment":[{"name":"BUCKET_NAME","value":"qc-aula03-uco7x2-catalogo"},{"name":"CSV_KEY","value":"catalogo/produtos.csv"}],
+  "logConfiguration":{"logDriver":"awslogs","options":{"awslogs-group":"/ecs/qc-aula03-uco7x2/produtos-api","awslogs-region":"us-east-1","awslogs-stream-prefix":"api"}}}]}

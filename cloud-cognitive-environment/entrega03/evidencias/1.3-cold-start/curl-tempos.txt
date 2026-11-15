@@ -1,0 +1,4 @@
+# curl -s -o /dev/null -w "%{time_total}s" ${FUNCTION_URL}produtos   (feito de um Mac, 2026-11-12 UTC)
+primeira chamada (fria, Init Duration 84,53 ms no REPORT): tempo do curl não medido (chamada de teste anterior)
+quente 1 (23:4x UTC): 0.344955s
+quente 2 (+5 s):      0.360439s

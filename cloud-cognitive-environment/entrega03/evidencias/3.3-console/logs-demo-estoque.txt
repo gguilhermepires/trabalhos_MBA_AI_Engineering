@@ -1,0 +1,6 @@
+INIT_START Runtime Version: python:3.15.mainline.v75  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:3f9d97ccafaeb7a4c43ee002f2bc2e0da06791b5e58200fe8b9ba789fcd1fef3
+[tls-profile] applied 'commercial/2025' -> /var/runtime/tls-profiles/commercial-2025.conf
+START RequestId: d691b762-a60c-4939-96b2-710d43e15d0d Version: $LATEST
+consulta produto=P001 armazem=SP
+END RequestId: d691b762-a60c-4939-96b2-710d43e15d0d
+REPORT RequestId: d691b762-a60c-4939-96b2-710d43e15d0d  Duration: 2.15 ms  Billed Duration: 99 ms  Memory Size: 128 MB  Max Memory Used: 35 MB  Init Duration: 96.23 ms

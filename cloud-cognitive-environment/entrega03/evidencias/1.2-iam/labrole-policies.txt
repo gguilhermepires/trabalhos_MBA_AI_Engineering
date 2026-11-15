@@ -1,0 +1,36 @@
+# LabRole: policies anexadas (mostra o quão larga é)
+{
+    "AttachedPolicies": [
+        {
+            "PolicyName": "c237721a5964467l18192867t1w924438851703-VocLabPolicy2-PA3DYbKuik9h",
+            "PolicyArn": "arn:aws:iam::924438851703:policy/c237721a5964467l18192867t1w924438851703-VocLabPolicy2-PA3DYbKuik9h"
+        },
+        {
+            "PolicyName": "c237721a5964467l18192867t1w924438851703-VocLabPolicy1-uJzerwN88lC6",
+            "PolicyArn": "arn:aws:iam::924438851703:policy/c237721a5964467l18192867t1w924438851703-VocLabPolicy1-uJzerwN88lC6"
+        },
+        {
+            "PolicyName": "c237721a5964467l18192867t1w924438851703-VocLabPolicy3-rprJU4ZHettP",
+            "PolicyArn": "arn:aws:iam::924438851703:policy/c237721a5964467l18192867t1w924438851703-VocLabPolicy3-rprJU4ZHettP"
+        },
+        {
+            "PolicyName": "AmazonSSMManagedInstanceCore",
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+        },
+        {
+            "PolicyName": "AmazonEKSClusterPolicy",
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+        },
+        {
+            "PolicyName": "AmazonEC2ContainerRegistryReadOnly",
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+        },
+        {
+            "PolicyName": "AmazonEKSWorkerNodePolicy",
+            "PolicyArn": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+        }
+    ]
+}
+{
+    "PolicyNames": []
+}

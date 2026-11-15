@@ -1,0 +1,7 @@
+inicio 01:01:25 UTC
+Time taken for tests:   416.797 seconds
+Failed requests:        0
+Requests per second:    38.39 [#/sec] (mean)
+  50%   1291
+  95%   2187
+fim 01:08:22 UTC

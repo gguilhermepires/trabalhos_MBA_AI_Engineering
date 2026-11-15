@@ -1,0 +1,5 @@
+mesma região 200 {"origem": "01001000", "destino": "01310100", "peso_kg": 2.5, "faixa": "mesma_regiao", "valor_brl": 19.5, "prazo_dias": 2}
+distante 200 {"origem": "01001000", "destino": "20040020", "peso_kg": 2.5, "faixa": "regiao_distante", "valor_brl": 47.5, "prazo_dias": 7}
+CEP inválido 400 {"erro": "origem e destino devem ser CEPs com 8 dígitos"}
+peso fora da faixa 400 {"erro": "peso deve estar entre 0.1 e 30.0 kg"}
+sem peso 400 {"erro": "peso deve ser um número em kg"}

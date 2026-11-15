@@ -1,0 +1,15 @@
+## build corrigido
+sha256:3d4d80e5167898be7cc7822bef4f7de4f6c5bde44aa80f7ce3e6a58a715f2cd9
+## build original (python:3.12 completo)
+sha256:32bd44cf1d566a70758413ca122c01d5d68cfb6f2704174dccea8910c71e87a7
+## tamanhos
+qc-original 1.79GB
+qc-corrigido 315MB
+## usuário no corrigido
+uid=10001(app) gid=10001(app) groups=10001(app)
+## usuário no original
+uid=0(root) gid=0(root) groups=0(root)
+
+{"status":"ok","service":"qc-catalogo","source":"s3","runtime":"container"}
+## healthcheck status
+healthy

@@ -1,0 +1,4 @@
+{"Arn":"arn:aws:ecs:us-east-1:924438851703:cluster/qc-aula03-uco7x2-cluster","RoleArn":"arn:aws:iam::924438851703:role/LabRole",
+ "Input":"{\"containerOverrides\":[{\"name\":\"produtos-api\",\"command\":[\"python\",\"-c\",\"print('job batch QC: recomendacoes recalculadas')\"]}]}",
+ "EcsParameters":{"TaskDefinitionArn":"arn:aws:ecs:us-east-1:924438851703:task-definition/qc-aula03-uco7x2-produtos-api:2","LaunchType":"FARGATE","TaskCount":1,
+  "NetworkConfiguration":{"awsvpcConfiguration":{"Subnets":["subnet-081dbcd7420ec5e9b"],"SecurityGroups":["sg-05ee402394df8b66f"],"AssignPublicIp":"ENABLED"}}}}

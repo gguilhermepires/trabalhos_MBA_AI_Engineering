@@ -1,0 +1,49 @@
+# Limpeza executada em 2026-11-13T01:08:47Z
+1) auto scaling
+  policy removida
+  target removido
+2) servico ECS
+0
+DRAINING
+3) task definitions
+INACTIVE
+INACTIVE
+4) imagem ECR
+bench1
+5) segredo
+qc-aula03/chave-teste
+6) demo-estoque + log group
+{
+    "StatusCode": 204
+}
+  funcao removida
+  log group removido
+
+# Verificação
+tarefas ECS rodando:
+TASKARNS	arn:aws:ecs:us-east-1:924438851703:task/qc-aula03-uco7x2-cluster/89e60029d4374d76933cdea390a45967
+(vazio = nenhuma)
+serviços:
+(vazio = nenhum)
+imagens ECR:
+sha256:d01832889e6b06cb36268eaad2be5af78a33fa3b8ee32c7d55f40221a1049e69
+sha256:208276abf9a15432c06077d175d62be8d463c50e267618649cb29c5685f518d4
+(vazio = nenhuma)
+schedules:
+(vazio = nenhum)
+funções Lambda do grupo:
+qc-aula03-uco7x2-catalogo
+bucket do lab:
+{
+    "BucketArn": "arn:aws:s3:::qc-aula03-uco7x2-catalogo",
+    "BucketRegion": "us-east-1",
+    "AccessPointAlias": false
+}
+existe
+
+# Pontas soltas
+STOPPED
+ imagens removidas:        1
+tarefas agora:
+imagens agora:
+(vazio = nenhuma)

@@ -1,0 +1,23 @@
+{
+  "name": "buscar_produtos_qc",
+  "description": "Busca produtos no catálogo da Quantum Commerce (QC) e devolve nome, descrição, categoria, preço em R$ e estoque. Use quando o cliente quiser achar, comparar ou saber o preço ou a disponibilidade de um produto que a QC vende. Combine os filtros que a pergunta permitir; todos são opcionais e se somam (E). Sem filtros, devolve o catálogo inteiro (20 itens): evite, prefira filtrar. NÃO use para pedidos, rastreio, devolução, pagamento ou frete (existem outras tools) nem para perguntas gerais que não dependem do catálogo. Regras dos filtros: `categoria` aceita exatamente uma de: moveis, eletronicos, eletrodomesticos, calcados, acessorios, vestuario (minúsculas, sem acento). `nome` é uma busca por trecho no nome do produto, sem acento e em minúsculas, com UMA palavra-chave curta: use 'cafe' (acha 'Cafeteira'), nunca 'café' nem a frase inteira do cliente. `preco_max` é o preço máximo em reais, número sem 'R$'. Se `total` vier 0, diga ao cliente que não encontrou e sugira relaxar um filtro (tire o preço ou a categoria); nunca invente produtos nem preços. Exemplos: 'cadeira até 1500' -> {\"categoria\":\"moveis\",\"nome\":\"cadeira\",\"preco_max\":1500}; 'quanto custa o Galaxy S24' -> {\"nome\":\"galaxy\"}; 'algo para café' -> {\"nome\":\"cafe\"}.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "categoria": {
+        "type": "string",
+        "enum": ["moveis", "eletronicos", "eletrodomesticos", "calcados", "acessorios", "vestuario"],
+        "description": "Categoria do produto, exatamente como na lista (minúsculas, sem acento). Omita se o cliente não indicou o tipo de produto."
+      },
+      "preco_max": {
+        "type": "number",
+        "description": "Preço máximo em reais (ex.: 1500 para 'até R$ 1.500'). Omita se o cliente não falou de orçamento."
+      },
+      "nome": {
+        "type": "string",
+        "description": "Uma palavra-chave do nome do produto, minúscula e sem acento (ex.: 'galaxy', 'cadeira', 'cafe'). Não use a frase inteira do cliente."
+      }
+    },
+    "required": []
+  }
+}

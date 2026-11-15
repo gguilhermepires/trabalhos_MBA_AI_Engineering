@@ -1,0 +1,11 @@
+Taxas: Fargate US$0.04048/vCPU-h, US$0.004445/GB-h; Lambda US$0,20/1M req + US$0,0000166667/GB-s
+Lambda busca (1M, 3ms, 256MB)     = 0.21  [calculadora: 0.21]
+Fargate 1vCPU/2GB 24/7            = 36.04  [calculadora: 36.04]
+Fargate 0.25vCPU/0.5GB 24/7       = 9.01
+Lambda frete (50k, 3ms, 256MB)    = 0.01
+Fargate NF 1vCPU/2GB 30h/mes      = 1.48
+Lambda NF: inviavel (limite 15 min)
+Fargate recomendacao 1vCPU/2GB 24/7 = 36.04
+Lambda recomendacao (200k req, 3s, 2GB) = 20.04
+Fargate checkout 2x(0.5vCPU/1GB) 24/7 = 36.04
+Lambda checkout (2M req, 300ms, 512MB, sem provisioned) = 5.40

@@ -1,0 +1,24 @@
+GET /produtos?categoria=moveis&preco_max=1500
+  total=3: [(1, 'Cadeira Ergonômica DXRacer', 1499.9), (7, 'Cadeira Gamer Vermelha', 1299.0), (14, 'Cadeira Home Office Confortá', 799.0)]
+-> HTTP 200
+
+GET /produtos?categoria=moveis&preco_max=800
+  total=1: [(14, 'Cadeira Home Office Confortá', 799.0)]
+-> HTTP 200
+
+GET /produtos?preco_max=500
+  total=8: [(3, 'Cafeteira Nespresso Essenza ', 499.0), (8, 'Fritadeira Air Fryer 4L', 449.0), (9, 'Liquidificador Oster 1000W', 289.0), (13, 'Mochila para Notebook 15.6', 189.9), (16, 'Camiseta Polo Masculina', 89.9), (17, 'Calça Jeans Slim', 149.9), (18, 'Tênis Casual Branco', 259.9), (19, 'Cafeteira Italiana 6 Xícaras', 89.9)]
+-> HTTP 200
+
+GET /produtos?preco_max=abc
+  {"erro": "preco_max deve ser um número"}
+-> HTTP 400
+
+GET /produtos?nome=galaxy
+  total=1: [(5, 'Smartphone Samsung Galaxy S2', 3999.0)]
+-> HTTP 200
+
+GET /produtos?nome=cafe
+  total=2: [(3, 'Cafeteira Nespresso Essenza ', 499.0), (19, 'Cafeteira Italiana 6 Xícaras', 89.9)]
+-> HTTP 200
+

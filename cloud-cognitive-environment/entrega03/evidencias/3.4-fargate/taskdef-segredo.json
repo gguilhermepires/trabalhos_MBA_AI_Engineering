@@ -1,0 +1,43 @@
+{
+ "family": "qc-aula03-uco7x2-produtos-api-segredo",
+ "requiresCompatibilities": [
+  "FARGATE"
+ ],
+ "networkMode": "awsvpc",
+ "cpu": "256",
+ "memory": "512",
+ "executionRoleArn": "arn:aws:iam::924438851703:role/LabRole",
+ "taskRoleArn": "arn:aws:iam::924438851703:role/LabRole",
+ "runtimePlatform": {
+  "operatingSystemFamily": "LINUX",
+  "cpuArchitecture": "X86_64"
+ },
+ "containerDefinitions": [
+  {
+   "name": "produtos-api",
+   "image": "924438851703.dkr.ecr.us-east-1.amazonaws.com/produtos-api:bench1",
+   "essential": true,
+   "portMappings": [
+    {
+     "containerPort": 8080
+    }
+   ],
+   "environment": [
+    {
+     "name": "BUCKET_NAME",
+     "value": "qc-aula03-uco7x2-catalogo"
+    },
+    {
+     "name": "CHAVE_EM_TEXTO_PURO",
+     "value": "valor-fake-so-para-teste-123"
+    }
+   ],
+   "secrets": [
+    {
+     "name": "CHAVE_VIA_SECRETS",
+     "valueFrom": "arn:aws:secretsmanager:us-east-1:924438851703:secret:qc-aula03/chave-teste-GIMOTn"
+    }
+   ]
+  }
+ ]
+}

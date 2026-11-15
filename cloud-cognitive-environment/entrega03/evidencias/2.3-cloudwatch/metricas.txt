@@ -1,0 +1,2 @@
+Invocations soma 3h: 8.0
+Errors soma 3h: 0.0

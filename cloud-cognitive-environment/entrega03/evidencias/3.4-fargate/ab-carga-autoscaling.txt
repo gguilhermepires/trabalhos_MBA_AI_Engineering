@@ -1,0 +1,53 @@
+This is ApacheBench, Version 2.3 <$Revision: 1923142 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 54.224.240.204 (be patient)
+Completed 500 requests
+Completed 1000 requests
+Completed 1500 requests
+Completed 2000 requests
+Completed 2500 requests
+Completed 3000 requests
+Completed 3500 requests
+Completed 4000 requests
+Completed 4500 requests
+Completed 5000 requests
+Finished 5000 requests
+
+
+Server Software:        uvicorn
+Server Hostname:        54.224.240.204
+Server Port:            8080
+
+Document Path:          /produtos?categoria=moveis
+Document Length:        715 bytes
+
+Concurrency Level:      50
+Time taken for tests:   121.283 seconds
+Complete requests:      5000
+Failed requests:        0
+Total transferred:      4300000 bytes
+HTML transferred:       3575000 bytes
+Requests per second:    41.23 [#/sec] (mean)
+Time per request:       1212.830 [ms] (mean)
+Time per request:       24.257 [ms] (mean, across all concurrent requests)
+Transfer rate:          34.62 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:      113  119   5.2    118     184
+Processing:   151 1087 486.0    990    3579
+Waiting:      151 1058 476.2    981    3480
+Total:        284 1205 486.3   1108    3698
+
+Percentage of the requests served within a certain time (ms)
+  50%   1108
+  66%   1394
+  75%   1507
+  80%   1602
+  90%   1894
+  95%   2106
+  98%   2307
+  99%   2499
+ 100%   3698 (longest request)

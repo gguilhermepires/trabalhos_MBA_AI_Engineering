@@ -1,0 +1,7 @@
+# serviço:
+2	1
+# atividades de scaling:
+2026-11-13T01:07:51.041000+00:00	InProgress	monitor alarm TargetTracking-service/qc-aula03-uco7x2-cluster/produtos-api-AlarmHigh-29f9ed32-15a9-4683-9aaf-7c57f119d6c5 in state ALARM triggered policy qc-aula03-api-cpu60
+# IPs publicos das tarefas:
+54.224.240.204
+32.197.49.51

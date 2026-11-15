@@ -1,0 +1,2 @@
+chamada 3 em 01:00:40 UTC
+tempo_total=1.153800s  ate_1o_byte=1.153645s  http=200

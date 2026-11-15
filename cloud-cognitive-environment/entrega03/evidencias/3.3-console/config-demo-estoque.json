@@ -1,0 +1,7 @@
+{
+    "Runtime": "python3.15",
+    "Role": "arn:aws:iam::924438851703:role/LabRole",
+    "Handler": "lambda_function.lambda_handler",
+    "Memory": 128,
+    "Timeout": 3
+}

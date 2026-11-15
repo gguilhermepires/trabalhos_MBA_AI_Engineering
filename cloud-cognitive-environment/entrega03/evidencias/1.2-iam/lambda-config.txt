@@ -1,0 +1,11 @@
+# aws lambda get-function-configuration (role e variáveis; sem segredos)
+{
+    "FunctionName": "qc-aula03-uco7x2-catalogo",
+    "Role": "arn:aws:iam::924438851703:role/LabRole",
+    "Runtime": "python3.12",
+    "MemorySize": 256,
+    "Environment": {
+        "CSV_KEY": "catalogo/produtos.csv",
+        "BUCKET_NAME": "qc-aula03-uco7x2-catalogo"
+    }
+}

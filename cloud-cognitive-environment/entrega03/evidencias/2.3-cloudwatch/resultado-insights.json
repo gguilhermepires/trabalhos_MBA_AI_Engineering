@@ -1,0 +1,37 @@
+{
+    "queryLanguage": "CWLI",
+    "results": [
+        [
+            {
+                "field": "chamadas",
+                "value": "28"
+            },
+            {
+                "field": "media_ms",
+                "value": "2.2889"
+            },
+            {
+                "field": "p95_ms",
+                "value": "2.53"
+            },
+            {
+                "field": "memoria_mb",
+                "value": "33"
+            },
+            {
+                "field": "frias",
+                "value": "2"
+            }
+        ]
+    ],
+    "statistics": {
+        "recordsMatched": 28.0,
+        "recordsScanned": 106.0,
+        "estimatedRecordsSkipped": 0.0,
+        "bytesScanned": 13084.0,
+        "estimatedBytesSkipped": 0.0,
+        "logGroupsScanned": 1.0,
+        "resultCount": 1.0
+    },
+    "status": "Complete"
+}
