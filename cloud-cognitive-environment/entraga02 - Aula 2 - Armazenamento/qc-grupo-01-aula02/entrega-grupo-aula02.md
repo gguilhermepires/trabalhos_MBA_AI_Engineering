@@ -15,7 +15,7 @@
 
 ## Distribuição do trabalho
 
-> Proposta seguindo o rodízio da Aula 1 (quem fez N1 antes assume N2 ou N3). **O grupo deve confirmar ou ajustar esta tabela antes de entregar.**
+> Os membros são os mesmos da Entrega 01. Seguimos o rodízio pedido na rubrica (Critério 4): quem fez N1 na Aula 1 assume N2 ou N3 agora.
 
 | Membro | Nível assumido | Item específico |
 |--------|----------------|-----------------|
