@@ -1,0 +1,56 @@
+# Recriação do demo-estoque (3.3), 2026-11-17, conta 924438851703, us-east-1, CloudShell
+# Saídas transcritas do terminal (prints: 04 a 09 nesta pasta).
+
+## 1) Função criada pelo console (Create Event Function, Python 3.15, LabRole em Additional settings)
+#    Print: 04-recriado-config-geral-demo-estoque.jpg (128 MB, timeout 3 s)
+
+## 2) Código publicado pelo CloudShell (o editor do console é um iframe e o auto-indent estraga o Python colado)
+$ python3 -m zipfile -c demo.zip lambda_function.py && aws lambda update-function-code --function-name demo-estoque \
+    --zip-file fileb://demo.zip --query '[FunctionName,LastUpdateStatus,Runtime]' --output text \
+  && aws lambda wait function-updated --function-name demo-estoque && echo DEPLOY_OK
+demo-estoque    InProgress      python3.15
+DEPLOY_OK
+
+## 3) Sintaxe e invocação direta
+$ python3 -c "import ast;ast.parse(open('lambda_function.py').read());print('SINTAXE_OK')"
+SINTAXE_OK
+$ aws lambda invoke --function-name demo-estoque --cli-binary-format raw-in-base64-out \
+    --payload '{"produto_id":"P001","armazem_id":"SP"}' out.json --query StatusCode --output text; cat out.json
+200
+{"statusCode": 200, "headers": {"Content-Type": "application/json"}, "body": "{\"produto_id\": \"P001\", \"nome\": \"Café Especial 500g\", \"quantidade_disponivel\": 42, \"em_estoque\": true, \"armazem\": \"SP\"}"}
+
+## 4) Function URL criada pelo console (Configuration > Function URL > Edit, Auth type NONE)
+#    Prints: 05 (form, padrão AWS_IAM), 06 (NONE + política gerada), 07 (URL criada)
+#    O console mostrou um aviso "missing permissions", mas a política já tinha as duas (ver abaixo): o aviso estava defasado.
+
+## 5) Conferência pelo CloudShell
+$ aws lambda get-function-url-config --function-name demo-estoque --query '[AuthType,InvokeMode]' --output text
+NONE    BUFFERED
+$ aws lambda get-policy --function-name demo-estoque ...   (Sid, Action, Condition)
+FunctionURLAllowInvokeAction lambda:InvokeFunction {'Bool': {'lambda:InvokedViaFunctionUrl': 'true'}}
+FunctionURLAllowPublicAccess lambda:InvokeFunctionUrl {'StringEquals': {'lambda:FunctionUrlAuthType': 'NONE'}}
+
+$ curl -s -w '\nHTTP %{http_code} em %{time_total}s\n' "${URL}?produto_id=P002&armazem_id=SP"
+{"produto_id": "P002", "nome": "Cadeira Ergonômica DXRacer", "quantidade_disponivel": 15, "em_estoque": true, "armazem": "SP"}
+HTTP 200 em 0.042294s
+$ curl -s -w '\nHTTP %{http_code}\n' "${URL}?produto_id=P001&armazem_id=RJ"
+{"produto_id": "P001", "nome": "Café Especial 500g", "quantidade_disponivel": 0, "em_estoque": false, "armazem": "RJ"}
+HTTP 200
+$ curl -s -w '\nHTTP %{http_code}\n' "${URL}"
+{"erro": "informe produto_id"}
+HTTP 400
+
+# No navegador (print 08): https://wdfqravwwuqzq643xd6s53c4aa0ziyke.lambda-url.us-east-1.on.aws/?produto_id=P002&armazem_id=SP
+#   {"produto_id": "P002", "nome": "Cadeira Ergonômica DXRacer", "quantidade_disponivel": 15, "em_estoque": true, "armazem": "SP"}
+
+## 6) Limpeza (passo 8 do roteiro) — print 14
+$ aws lambda delete-function --function-name demo-estoque
+funcao demo-estoque removida (a Function URL e as permissoes vao junto)
+$ aws logs delete-log-group --log-group-name /aws/lambda/demo-estoque
+log group removido
+$ aws lambda list-functions --query 'Functions[].FunctionName' --output text
+qc-aula03-uco7x2-catalogo  RedshiftOverwatch  RedshiftEventSubscription  ModLabRole  RoleCreationFunction  MainMonitoringFunction
+$ aws logs describe-log-groups --log-group-name-prefix /aws/lambda/demo --query 'logGroups[].logGroupName' --output text
+(vazio)
+$ curl -s -o /dev/null -w "HTTP %{http_code}\n" "<URL pública da demo>"
+HTTP 403

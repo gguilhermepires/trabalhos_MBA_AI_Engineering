@@ -1,6 +1,6 @@
 # Canvas de compute — Quantum Commerce
 
-**Grupo:** NN · **Entrega 03 · N2**
+**Grupo:** 01 · **Entrega 03 · N2**
 
 Uma linha por carga de trabalho. As colunas são as perguntas que decidem onde ela roda; a última é a decisão.
 
@@ -34,4 +34,6 @@ Cada membro do grupo, uma linha com uma carga real do próprio trabalho. Anonimi
 
 | Membro | Carga | Como é chamada | Quanto tempo roda | Tráfego | Espera 1 s? | Identidade | Custo/mês | Onde roda hoje — e onde deveria rodar |
 |--------|-------|----------------|-------------------|---------|-------------|------------|-----------|---------------------------------------|
-| | | | | | | | | |
+| Guilherme Augusto Veiga Pires | API de cadastro e mensalidades de uma associação (NestJS + banco relacional gerenciado) | O site (front estático), por HTTP | 50–500 ms por chamada; envio de e-mail de alguns segundos | Baixo e em picos (horário comercial); parada à noite | Hoje não: o primeiro acesso depois de ociosa leva 30–60 s (hibernação do plano gratuito). Aceitável só para uso interno | String de conexão do banco e credencial do e-mail em variáveis de ambiente do host; sem role de nuvem | **Hoje US$ 0** (plano gratuito) · Lambda ~US$ 0,20 por 1M req (estimativa nossa) · Fargate 0,25 vCPU/0,5 GB 24/7 US$ 9,01 | Hoje num container em PaaS gratuito. Deveria ir para Lambda (tráfego baixo e em picos, custo parado zero), com as credenciais no Secrets Manager lidas pela execution role; o cold start do ORM (centenas de ms) é aceitável, e o do plano atual (30–60 s) não é. Não usaria Fargate 24/7 para esse volume. |
+| Somario Canuto da Silva | Fechamento noturno de relatórios gerenciais de uma área de negócio | Por agenda (1 vez por noite) | ~40 min | Uma execução por noite; parada o resto do dia | Sim (ninguém espera) | Ler as tabelas do dia e gravar os relatórios em um bucket; credencial do banco no Secrets Manager | **Fargate US$ 1,48** (1 vCPU/2 GB, 30 h/mês, mesmas taxas do canvas) · Lambda inviável (passa dos 15 min) | Hoje num servidor sempre ligado, com cron. Deveria ir para Fargate com RunTask agendado (EventBridge Scheduler): paga só os ~40 min e libera o servidor. Não usaria Lambda (limite de 15 min) nem serviço 24/7. |
+| Cinara Nubia Silva | Processamento de documentos enviados por clientes (extrair dados de PDFs) | Por evento (arquivo novo no bucket) | ~2 s por arquivo | Em rajadas, ~20 mil arquivos por mês, quase nenhum à noite | Sim (processamento em segundo plano) | Ler o arquivo do prefixo de entrada e gravar o resultado no de saída; nada além disso | **Lambda US$ 0,67** (20 mil req, 2 s, 1 GB) · Fargate worker 0,5 vCPU/1 GB 24/7 US$ 18,02 | Hoje num worker sempre ligado que consulta a pasta. Deveria ir para Lambda com gatilho S3 (ou S3 → SQS → Lambda): escala por arquivo e custa zero parada. Não usaria um serviço 24/7 para um volume tão baixo. |

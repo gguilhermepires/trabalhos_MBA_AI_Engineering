@@ -1,0 +1,21 @@
+# Medição 256 MB x 128 MB na Lambda do lab (2.3d) e cold starts extras (1.3), 2026-11-17, CloudShell
+# Script: medir.sh. Para cada memória: update-function-configuration (cria ambiente novo, então a 1a chamada é fria),
+# wait function-updated e 4 invocações diretas de GET /produtos?categoria=moveis (v3, lê o CSV do S3), com --log-type Tail.
+# Print: medicao-256-vs-128mb.jpg. Memória restaurada a 256 MB ao final; nenhum apply.
+
+=== memoria 256 MB
+REPORT 159.76 ms Billed Duration: 683 ms Memory Size: 256 MB Max Memory Used: 92 MB Init Duration: 522.40 ms   (fria)
+REPORT 35.51 ms Billed Duration: 36 ms Memory Size: 256 MB Max Memory Used: 92 MB
+REPORT 25.68 ms Billed Duration: 26 ms Memory Size: 256 MB Max Memory Used: 92 MB
+REPORT 27.32 ms Billed Duration: 28 ms Memory Size: 256 MB Max Memory Used: 92 MB
+=== memoria 128 MB
+REPORT 308.58 ms Billed Duration: 807 ms Memory Size: 128 MB Max Memory Used: 92 MB Init Duration: 498.29 ms   (fria)
+REPORT 31.79 ms Billed Duration: 32 ms Memory Size: 128 MB Max Memory Used: 92 MB
+REPORT 23.43 ms Billed Duration: 24 ms Memory Size: 128 MB Max Memory Used: 93 MB
+REPORT 28.12 ms Billed Duration: 29 ms Memory Size: 128 MB Max Memory Used: 93 MB
+=== memoria 256 MB (de novo)
+REPORT 143.80 ms Billed Duration: 641 ms Memory Size: 256 MB Max Memory Used: 92 MB Init Duration: 496.82 ms   (fria)
+REPORT 25.26 ms Billed Duration: 26 ms Memory Size: 256 MB Max Memory Used: 92 MB
+REPORT 32.62 ms Billed Duration: 33 ms Memory Size: 256 MB Max Memory Used: 92 MB
+REPORT 32.81 ms Billed Duration: 33 ms Memory Size: 256 MB Max Memory Used: 92 MB
+memoria final: 256 MB

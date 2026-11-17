@@ -1,0 +1,39 @@
+# Drift real da memória da Lambda do lab (3.3b), 2026-11-17, CloudShell, Terraform v1.9.8
+# Estado: ~/aie-cloud/aulas/03-serverless-containers/lab/terraform/terraform.tfstate
+# Prints: 10 a 13 nesta pasta. Usamos -target=aws_lambda_function.catalogo só para o plano focar na função
+# (o Terraform avisa "Resource targeting is in effect"). Nenhum apply foi executado.
+
+## 1) Baseline, antes de mexer
+$ terraform plan -no-color -target=aws_lambda_function.catalogo
+No changes. Your infrastructure matches the configuration.
+
+## 2) Mudança fora do Terraform (mesmo efeito de editar General configuration no console)
+$ aws lambda update-function-configuration --function-name qc-aula03-uco7x2-catalogo --memory-size 512
+memoria agora: 512 MB (drift)
+
+## 3) Plano com drift (saída real)
+$ terraform plan -no-color -target=aws_lambda_function.catalogo
+aws_lambda_function.catalogo: Refreshing state... [id=qc-aula03-uco7x2-catalogo]
+Terraform used the selected providers to generate the following execution plan.
+Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # aws_lambda_function.catalogo will be updated in-place
+  ~ resource "aws_lambda_function" "catalogo" {
+        id                             = "qc-aula03-uco7x2-catalogo"
+      ~ memory_size                    = 512 -> 256
+        tags                           = {}
+        # (28 unchanged attributes hidden)
+        # (4 unchanged blocks hidden)
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+## 4) Restauração (nenhum apply: devolvemos o valor pelo CLI) e novo plano
+$ aws lambda update-function-configuration --function-name qc-aula03-uco7x2-catalogo --memory-size 256
+256
+memoria restaurada: 256 MB
+$ terraform plan -no-color -target=aws_lambda_function.catalogo
+No changes. Your infrastructure matches the configuration.

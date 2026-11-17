@@ -1,24 +1,27 @@
-# Entrega Aula 03 — Grupo <NN>
+# Entrega 03 — Aula 3 (Serverless, Containers & Secrets) — Grupo 01
 
 **Disciplina:** Cloud & Cognitive Environments — FIAP MBA AI Engineering & Multi-Agents
-**Turma:** <código da sua turma>
-**Data de entrega:** <DD/MM/AAAA>
+**Professor:** Isaías Silva de Britto
+**Turma:** 6AIER
+**Data de entrega:** 29/11/2026
 
 ## Grupo
 
 | # | Nome completo | GitHub | E-mail FIAP |
 |---|---------------|--------|-------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | Cinara Nubia Silva (RM 379045) | — | rm379045@fiap.com.br |
+| 2 | Guilherme Augusto Veiga Pires (RM 379110) | gguilhermepires | rm379110@fiap.com.br |
+| 3 | Somario Canuto da Silva (RM 379214) | — | rm379214@fiap.com.br |
 
 ## Distribuição do trabalho
 
+> Os membros são os mesmos das Entregas 01 e 02. Seguimos o rodízio da rubrica (Critério 4): quem fez N1 nas Aulas 1-2 (Cinara, Somario) assume N2 ou N3 agora.
+
 | Membro | Nível assumido | Item específico |
 |--------|----------------|-----------------|
-| | | |
+| Guilherme Augusto Veiga Pires | 🟢 N1 + reflexão | Exercícios 1.1–1.4 (serverless, IAM, cold start, Dockerfile), execução do lab e reflexão coletiva; revisão final |
+| Somario Canuto da Silva | 🟡 N2 | Exercícios 2.1–2.3 (canvas de compute, tool de frete, CloudWatch) |
+| Cinara Nubia Silva | 🔴 N3 (bônus) | Exercícios 3.1–3.4 (tool de agente, benchmark, console e drift, Fargate em produção) |
 
 ---
 
@@ -86,10 +89,11 @@ A LabRole do lab pode muito mais do que isso. Se a função tiver uma falha (SSR
 | 1 (fria) | 1,154 s (feita às 01:00:40 UTC, 30 min e 18 s depois da última invocação) | **Sim: 493,92 ms** (cobrados 656 ms; duração 161,6 ms; 92 MB) |
 | 2 (quente, +5 s) | 0,345 s e 0,360 s (duas amostras, em outra rodada com a função já quente) | Não (cobrados 2 ms) |
 | 3 (fria de novo, +30 min) | 1,154 s (é a mesma chamada fria da linha 1: a chamada de teste inicial não teve o tempo medido) | Sim: 493,92 ms |
+| *Extra: 3 partidas frias a mais, forçadas trocando a configuração (17/11)* | Duração 159,8 / 308,6 / 143,8 ms (o 308,6 ms foi com 128 MB) | Sim: 522,40 / 498,29 / 496,82 ms |
 
 Os dados vêm dos REPORTs do CloudWatch (`evidencias/1.3-cold-start/`): `reports-cloudwatch.txt` (rodada inicial, com a v1-mock: `Init Duration` de 84 a 87 ms), `report-chamada3.txt` e `chamada3-curl.txt` (a chamada fria depois de 30 min, já com a v3).
 
-**Observação:** o `Init Duration` subiu de ~85 ms (v1-mock, sem dependências) para **~494 ms** na v3, porque ela importa o `boto3` e cria o cliente do S3 na inicialização; e a duração da chamada foi de 162 ms contra ~2 ms de uma chamada quente, pois a primeira leitura do CSV no S3 também entra na conta. O cold start cresce com o que o código carrega.
+**Observação:** nas três partidas frias extras (forçadas, e não depois de 30 min de ociosidade, que é a condição da linha 3) o `Init Duration` ficou entre 496 e 523 ms, igual ao de 494 ms medido depois dos 30 min (`evidencias/2.3-cloudwatch/medicao-256-vs-128mb.txt`). O `Init Duration` subiu de ~85 ms (v1-mock, sem dependências) para **~494 ms** na v3, porque ela importa o `boto3` e cria o cliente do S3 na inicialização; e a duração da chamada foi de 162 ms contra ~2 ms de uma chamada quente, pois a primeira leitura do CSV no S3 também entra na conta. O cold start cresce com o que o código carrega.
 
 **Se o agente chamar a função 1 vez por hora (24 chamadas/dia), quantas serão frias?** Provavelmente **todas as 24**. A Lambda mantém o ambiente quente por alguns minutos de ociosidade (o que observamos: a função esfriou em menos de 30 min), e com uma chamada por hora o ambiente sempre terá sido reciclado. Cada usuário pagaria ~1,2 s na primeira resposta.
 
@@ -218,7 +222,15 @@ Validações (HTTP 400): CEP com 8 dígitos (aceita `01001-000`), peso numérico
 | 128 MB | 250 | US$ 0,0042 | US$ 0,20 |
 
   A economia é de uns US$ 0,004 por milhão de chamadas, desprezível: o custo está nas requisições, não na memória. Com 33 MB usados, 128 MB cabe.
-- **Latência com 128 MB:** na Lambda a CPU é proporcional à memória, então com metade da memória a função tem metade da CPU. Estimamos que a execução e o `Init Duration` aumentem (talvez para perto do dobro nos trechos que dependem de CPU); **não medimos**, porque mudar a memória da função do lab geraria drift no Terraform. Para uma função de 2 ms isso não muda a experiência. Em funções mais pesadas, subir a memória pode até **reduzir** o custo, porque acaba mais rápido.
+- **Latência com 128 MB (medida):** trocamos a memória da função do lab para 128 MB, chamamos `/produtos?categoria=moveis` 4 vezes (a 1ª fria, porque trocar a configuração cria um ambiente novo) e voltamos a 256 MB, sem `apply` (`evidencias/2.3-cloudwatch/medicao-256-vs-128mb.txt`, com print):
+
+  | | 256 MB (2 rodadas) | 128 MB |
+  |---|---|---|
+  | Chamada fria: duração / cobrado | 159,8 ms / 683 ms e 143,8 ms / 641 ms | **308,6 ms / 807 ms** |
+  | `Init Duration` | 522,4 ms e 496,8 ms | 498,3 ms |
+  | Chamadas quentes (média de 3) | 29,5 ms e 30,2 ms | 27,8 ms |
+
+  Com metade da memória (e da CPU), a **chamada fria dobra de duração** (~150 ms → ~309 ms) e fica ~20 % mais cara de cobrar (807 ms contra ~660 ms). O `Init Duration` **não mudou** (~500 ms: o Init da Lambda tem CPU extra) e as **chamadas quentes ficaram iguais** (~28 a 30 ms, a conta é dominada pela leitura do S3, não pela CPU). Como a função usa 92 MB, 128 MB cabe. A economia continua desprezível (US$ 0,004 por milhão) e a 1ª chamada piora, então para esta função **mantemos 256 MB**. Correção ao que estimamos antes: o `Init Duration` não dobrou.
 
 **e) Estratégia para um sistema multiagente em produção**
 
@@ -318,23 +330,28 @@ Por que está assim: o `enum` impede o agente de inventar categorias; a regra "s
 
 **Feito no console (Chrome), na conta do lab:** criamos a função `demo-estoque` (Python 3.15, execution role **LabRole** escolhida em *Additional settings → Custom execution role*), colamos o código do lab, clicamos em **Deploy** ("Successfully updated the function") e rodamos um teste com o evento `{"produto_id": "P001", "armazem_id": "SP"}`: **Status: Succeeded**, `statusCode` 200. O log da função confirma o evento e que foi chamada fria (`Init Duration: 96,23 ms`, 99 ms cobrados, 128 MB, 35 MB usados). Prints em `evidencias/3.3-console/` (`01-funcao-criada.jpg`, `02-codigo-colado-deploy.jpg`, `03-teste-console-succeeded.jpg`) e logs em `logs-demo-estoque.txt` e `config-demo-estoque.json`.
 
-**Pendente:** a Function URL pública (passo 6 do roteiro, *Auth type NONE*). A criação foi **bloqueada pelo modo automático do Claude Code** e não a contornamos; fica para o grupo criar manualmente no console (Configuration → Function URL).
+**Function URL pública (passo 6), feita em 17/11/2026:** na mesma sessão do lab, recriamos a `demo-estoque` pelo console (Python 3.15, LabRole em *Additional settings*), em **Configuration → Function URL → Edit** escolhemos **Auth type NONE** e salvamos (prints `05` a `07`). O console gerou sozinho a política com as **duas** permissões (`lambda:InvokeFunctionUrl` com `FunctionUrlAuthType = NONE` e `lambda:InvokeFunction` com `InvokedViaFunctionUrl = true`), conferidas com `aws lambda get-policy`; o aviso "missing permissions" que a tela mostrou logo depois estava defasado. A URL respondeu no navegador (print `08`) e no `curl`: **HTTP 200** em 0,042 s para `?produto_id=P002&armazem_id=SP`, 200 com `em_estoque: false` para o café no RJ, e **HTTP 400** sem `produto_id` (`comandos-demo-estoque-recriada-2026-11-17.txt`, print `09`). O código foi publicado pelo CloudShell (`aws lambda update-function-code`), porque o editor do console fica num iframe e o auto-indent estraga o Python colado. Ao final, apagamos a função, a URL e o log group, e a URL passou a dar **403** (print `14`).
 
 **a) O que o Terraform fazia por nós, e o que esqueceríamos pelas telas?** O Terraform declara tudo em um lugar só: a função (com role, runtime, memória, timeout e variáveis), o **log group com 7 dias de retenção**, a **Function URL** e as **duas permissões** (`InvokeFunctionUrl` e `InvokeFunction`), o pacote do código e a **limpeza** (`destroy` apaga tudo). Pelas telas, o que mais se esquece: a **retenção do log group** (a Lambda cria o grupo sozinha, sem expiração, e o log cobra armazenamento para sempre), as **duas permissões** da URL (o console cria, mas quem copia a configuração à mão esquece uma e recebe `Forbidden`), a **limpeza** (apagar a função não apaga o log group) e o registro do *por que* de cada escolha (ninguém sabe depois quem mudou a memória, quando e por quê). O Terraform também é repetível: o mesmo código cria o mesmo ambiente em outra conta.
 
 **b) Drift:** mudamos a memória da Lambda do lab de 256 para 512 MB fora do Terraform (`aws lambda update-function-configuration`, o mesmo efeito de editar *General configuration* no console) e conferimos na AWS: o recurso real passou a ter 512 MB enquanto o `lambda.tf` continua declarando `memory_size = 256` (saída em `evidencias/3.3-console/drift-memoria-cli.txt`). Depois devolvemos a 256 MB.
 
-> **Importante, sobre a evidência:** não rodamos o `terraform plan` real (o Terraform não está instalado no ambiente e o estado do lab está na conta de outro usuário). O trecho abaixo é o que o plano **deve** mostrar, com base no `lambda.tf`; **não é uma saída real**. Se o grupo tiver o estado, vale substituir pelo `terraform plan` verdadeiro.
+Rodamos o **`terraform plan` de verdade** no CloudShell (Terraform v1.9.8, estado do lab em `~/aie-cloud/.../terraform`), com `-target=aws_lambda_function.catalogo` para focar na função. Sem mexer em nada, o plano deu *No changes*. Depois mudamos a memória para 512 MB fora do Terraform e o plano passou a mostrar (saída real, prints `10` a `12`):
 
 ```
   # aws_lambda_function.catalogo will be updated in-place
   ~ resource "aws_lambda_function" "catalogo" {
-      ~ memory_size = 512 -> 256
-        # (demais atributos sem mudança; filename e source_code_hash são ignorados por lifecycle.ignore_changes)
+        id                             = "qc-aula03-uco7x2-catalogo"
+      ~ memory_size                    = 512 -> 256
+        tags                           = {}
+        # (28 unchanged attributes hidden)
+        # (4 unchanged blocks hidden)
     }
 
 Plan: 0 to add, 1 to change, 0 to destroy.
 ```
+
+Não rodamos o `apply`: devolvemos a memória a 256 MB pelo CLI e o plano voltou a *No changes* (print `13`). Saída completa em `evidencias/3.3-console/terraform-plan-real-drift-2026-11-17.txt`.
 
 **O que acontece no `terraform apply`:** ele **desfaz a mudança manual** e volta a memória para 256 MB: o código vence o console. **Por que importa num time:** se uma pessoa sobe a memória no console para resolver um problema de timeout à noite e ninguém registra, o próximo `apply` (de outra pessoa, por outro motivo) derruba a correção sem aviso, e o problema volta. O contrário também acontece: o ambiente real passa a ter configurações que ninguém sabe explicar nem recriar. Por isso a mudança deve entrar no código, em PR, e o `plan` deve rodar no CI para o drift aparecer cedo. Observe que o `lifecycle.ignore_changes` do lab só cobre o código (`filename`, `source_code_hash`), então a memória **é** vigiada pelo Terraform.
 
@@ -344,7 +361,7 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 
 ### Exercício 3.4 — Fargate em produção: restart, sizing e segredos
 
-Terraform completo dos itens (a) a (d): `terraform/containers-evolucao.tf`. **Atenção sobre o que foi validado:** o Terraform não foi aplicado (não está instalado); os itens foram exercitados na AWS pela CLI (a sessão do Learner Lab expirou uma vez no meio, com `explicit deny ... voc-cancel-cred`, e foi reiniciada). O que foi e o que não foi verificado está marcado em cada item.
+Terraform completo dos itens (a) a (d): `terraform/containers-evolucao.tf`. **Atenção sobre o que foi validado:** o `containers-evolucao.tf` não foi aplicado (o `terraform plan` só foi rodado no 3.3b, sobre a função do lab); os itens foram exercitados na AWS pela CLI (a sessão do Learner Lab expirou uma vez no meio, com `explicit deny ... voc-cancel-cred`, e foi reiniciada). O que foi e o que não foi verificado está marcado em cada item.
 
 **a) Serviço × tarefa avulsa (job batch).** O lab usa um **serviço**: o ECS mantém `desired_count` tarefas e **recria** a que cair. Para o job noturno de recomendações usamos um **`aws_scheduler_schedule`** que dispara `RunTask`: a tarefa roda, termina e **para de cobrar**. Criamos na AWS um agendamento de execução única (`at(...)`, `ActionAfterCompletion=DELETE`) chamando `RunTask` com `containerOverrides` (`evidencias/3.4-fargate/scheduler-target.json` e `scheduler-criado.txt`): **a tarefa rodou:** iniciou às 00:53:41 e terminou às 00:54:04 UTC com `exitCode 0` (`job-agendado-resultado.txt`), e o agendamento **se apagou sozinho** depois de executar (`ActionAfterCompletion=DELETE`). **Quando usar cada um:** *serviço* para algo que precisa estar **sempre no ar** e responder (API do checkout, que o ECS reinicia se cair); *tarefa agendada* para trabalho com **começo e fim** (recalcular recomendações, gerar notas fiscais, extrair dados), sem pagar pelo tempo ocioso.
 
@@ -386,7 +403,7 @@ Critérios: **custo parado** (Lambda zero; Fargate cobra 24/7), **HTTPS** (Lambd
 
 ## Reflexão coletiva
 
-> *Rascunho para o grupo revisar e ajustar com as próprias palavras; a linha de cada membro está no `canvas-compute.md`.*
+> *A linha de cada membro está no `canvas-compute.md`.*
 
 **1. O que aprendemos de mais importante.** Que a escolha entre Lambda e container não é de tecnologia, mas de **forma de carga**, e que dá para medir. No benchmark, a Lambda atendeu 85 req/s e escalou até 49 execuções concorrentes; uma tarefa Fargate de 0,25 vCPU atendeu 44 req/s e chegou a 100 % de CPU. Em dinheiro, a mesma busca custa ~US$ 0,2 por milhão de chamadas na Lambda e ~US$ 9 por mês parada no Fargate. Aprendemos também que o **cold start é uma propriedade do código**, não só da plataforma: ele subiu de ~85 ms para ~494 ms quando a função passou a importar o `boto3` e ler o S3, e uma função chamada a cada hora esfria sempre. E que a **identidade** importa tanto quanto o desempenho: a LabRole pode muito mais do que ler o catálogo, e uma policy mínima (`s3:GetObject` no `catalogo/*`) limita o estrago de uma falha.
 
