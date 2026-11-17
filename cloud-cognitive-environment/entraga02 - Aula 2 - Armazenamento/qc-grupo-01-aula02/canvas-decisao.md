@@ -21,10 +21,10 @@ Uma linha por dado. As colunas são as perguntas que decidem onde ele mora; a ú
 
 ## Uma linha do trabalho de vocês
 
-> **Pendente do grupo:** cada membro preenche uma linha com um dado real do próprio trabalho, anonimizado (nomes, números e clientes). Não inventamos esses dados.
+> **Casos fictícios (empresa LogiFrio, a mesma do Ex. 2.3 da Entrega 01):** os dados abaixo são hipóteses criadas para o exercício, não dados reais do trabalho de cada membro. Os preços unitários vêm do arquivo oficial de preços da AWS (us-east-1, on-demand). Cada membro pode trocar a sua linha por um dado real anonimizado.
 
 | Membro | Dado | Que pergunta responde | Volume e crescimento | Pode errar? | Quem lê / credencial | Custo/mês | Onde mora hoje — e onde deveria morar |
 |--------|------|-----------------------|----------------------|-------------|----------------------|-----------|---------------------------------------|
-| Cinara Nubia Silva | | | | | | | |
-| Guilherme Augusto Veiga Pires | | | | | | | |
-| Somario Canuto da Silva | | | | | | | |
+| Cinara Nubia Silva | Notas fiscais (XML) | "Mostre a nota fiscal da compra X" e auditoria fiscal | ~2 M notas/mês × 20 KB = 40 GB/mês; guardar 5 anos (~2,4 TB) | Não (compliance), mas a leitura é rara | Fiscal e suporte, por role de leitura | ≈ 3,3 no 5º ano (40 GB em Standard × US$ 0,023 + 2.360 GB em Deep Archive × US$ 0,00099) | Servidor de arquivos local → **S3 com lifecycle** (Standard 30 dias, depois Deep Archive) |
+| Guilherme Augusto Veiga Pires | Temperatura das câmaras frias | "Esta câmara está fora da faixa agora?" (alerta) | 300 câmaras × 1 leitura/min ≈ 13 M eventos/mês (~2,6 GB) | Sim (minutos), mas o alerta não pode falhar | App de monitoramento, pela role | ≈ 9,35 (13 M escritas × US$ 0,625/M + 10 M leituras eventuais × US$ 0,125/M) | Planilha e banco local → **DynamoDB on-demand com TTL de 7 dias**; histórico em S3/Parquet + Athena |
+| Somario Canuto da Silva | Cadastro de motoristas e rotas | "Qual motorista está na rota X hoje?" (joins entre motorista, veículo e rota) | ~500 motoristas, 50 GB, crescimento lento | Não (escala de entrega, dinheiro de frete) | Logística e RH, por roles distintas | ≈ 135,69 (`db.m5.large` Single-AZ US$ 129,94 + 50 GB × US$ 0,115) | Access/planilha → **RDS PostgreSQL**: esquema fixo, joins e integridade |
