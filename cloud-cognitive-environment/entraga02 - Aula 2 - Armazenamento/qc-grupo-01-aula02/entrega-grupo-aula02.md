@@ -219,6 +219,7 @@ Executado no CloudShell com `terraform apply` (17 recursos) e o atalho `qc` do l
 | 2 | Catálogo no RDS pelo Secrets Manager | 20 produtos; mesmas 6 categorias e médias do Athena; o código só usa o nome do segredo | `07-lab2-rds-produtos-e-segredo`, `14-console-rds-disponivel`, `15-console-secrets-manager` |
 | 3A | 30 reviews no DynamoDB | `Query` por `produto_id = 5`: **2 itens lidos, 0,5 RCU**; `Scan` com `contains()`: **30 itens lidos, 2,0 RCU**, para achar 5 | `08-lab3a-dynamodb-query-vs-scan`, `17-console-dynamodb-30-itens` |
 | 3B | Embeddings (MiniLM multilíngue, 384 dim.) + pgvector com índice HNSW | 20 produtos indexados; busca por palavra × sentido (ver 3.1) | `09-lab3b-busca-palavra-vs-sentido` |
+| Destroy | `terraform destroy` e conferência no console | **17 recursos destruídos** (RDS em 1 min 50 s). Depois: RDS 0, DynamoDB 0, Secrets Manager vazio, Athena só com o workgroup `primary`, EC2 com 0 instâncias, 0 volumes, 0 IPs elásticos e 0 load balancers. O único bucket que resta (`qc-aula03-uco7x2-catalogo`) é da Entrega 03, não deste lab. | `18-terraform-destroy-17-recursos`, `19` a `24-pos-destroy-*`, `logs/13-verificacao-pos-destroy.log` |
 
 > **Achado do Lab 1:** o objeto aparece com classe `None` no `head-object`: é como a API mostra a classe Standard (a classe padrão não vem preenchida).
 
@@ -353,5 +354,5 @@ Um agente só é tão bom quanto o dado que consegue recuperar. O agente da QC p
 - `diagramas/arquitetura-qc-aula02.png` e `.svg`: camada de dados da QC (Ex. 2.1).
 - `terraform/`: código IaC do lab (S3, RDS, Secrets Manager, DynamoDB, Athena), executado sem alterações.
 - `scripts/`: `buscar_hibrido.py` (Ex. 3.1) e `benchmark_busca.py` (Ex. 3.3).
-- `evidencias/`: 21 capturas de tela e `evidencias/logs/` com a saída de cada comando do lab.
+- `evidencias/`: 27 capturas de tela e `evidencias/logs/` com a saída de cada comando do lab.
 - Endpoint ativo: **nenhum** (o ambiente foi destruído com `terraform destroy` ao final).
