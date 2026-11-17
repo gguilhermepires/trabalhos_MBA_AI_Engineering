@@ -1,0 +1,50 @@
+→ Instalando no venv /tmp/venv-qc: pgvector fastembed (só na primeira vez)
+
+[notice] A new release of pip is available: 24.2 -> 26.3
+[notice] To update, run: pip install --upgrade pip
+→ Baixando s3://qc-aula02-p8emdz/catalogo/produtos.csv...
+✓ 20 produtos lidos
+→ Carregando o modelo sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 (cache em /tmp/fastembed)...
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 5 files:  80%|████████  | 4/5 [00:01<00:00,  3.74it/s]Fetching 5 files: 100%|██████████| 5/5 [00:02<00:00,  1.53it/s]Fetching 5 files: 100%|██████████| 5/5 [00:02<00:00,  1.78it/s]
+✓ 20 embeddings gerados (384 dimensões)
+✓ Tabela produtos_vetor + índice HNSW criados
+✓ 20 produtos indexados
+
+✓ Pronto. Agora o desafio: qc busca "algo para trabalhar em pé"
+
+Pergunta: "algo para trabalhar em pé"
+
+1. Busca por PALAVRA (a frase inteira no nome ou na descrição)
+   (nenhum resultado: nenhum produto tem essa frase escrita)
+
+2. Busca pelo SENTIDO (pgvector, os 3 mais próximos)
+   similaridade 0.56  ·  R$   799.00  ·  Cadeira Home Office Confortável
+   similaridade 0.48  ·  R$  2899.00  ·  Mesa de Escritório com Regulagem de Altura
+   similaridade 0.47  ·  R$  1499.90  ·  Cadeira Ergonômica DXRacer
+
+Anote: a busca por palavra achou? A pelo sentido acertou? Algum resultado é parecido mas errado?
+
+Pergunta: "presente para quem gosta de correr"
+
+1. Busca por PALAVRA (a frase inteira no nome ou na descrição)
+   (nenhum resultado: nenhum produto tem essa frase escrita)
+
+2. Busca pelo SENTIDO (pgvector, os 3 mais próximos)
+   similaridade 0.38  ·  R$  1299.00  ·  Cadeira Gamer Vermelha
+   similaridade 0.35  ·  R$   899.90  ·  Tênis Adidas Ultraboost 23
+   similaridade 0.33  ·  R$   799.90  ·  Tênis Nike Air Zoom Pegasus 40
+
+Anote: a busca por palavra achou? A pelo sentido acertou? Algum resultado é parecido mas errado?
+
+Pergunta: "Dell Inspiron"
+
+1. Busca por PALAVRA (a frase inteira no nome ou na descrição)
+   Notebook Dell Inspiron 15
+
+2. Busca pelo SENTIDO (pgvector, os 3 mais próximos)
+   similaridade 0.67  ·  R$  4299.00  ·  Notebook Dell Inspiron 15
+   similaridade 0.37  ·  R$   899.90  ·  Tênis Adidas Ultraboost 23
+   similaridade 0.37  ·  R$  3999.00  ·  Smartphone Samsung Galaxy S24
+
+Anote: a busca por palavra achou? A pelo sentido acertou? Algum resultado é parecido mas errado?

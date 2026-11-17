@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker>
+    <style>
+      .t{font-size:15px;fill:#0f172a}.s{font-size:12px;fill:#475569}.h{font-size:18px;font-weight:700;fill:#0f172a}
+      .box{rx:10;fill:#fff;stroke:#334155;stroke-width:1.5}
+      .rds{fill:#dbeafe;stroke:#1d4ed8}.ddb{fill:#fef3c7;stroke:#b45309}.s3{fill:#dcfce7;stroke:#15803d}.ml{fill:#ede9fe;stroke:#6d28d9}.sec{fill:#fee2e2;stroke:#b91c1c}
+      .grp{fill:#f8fafc;stroke:#94a3b8;stroke-dasharray:6 4;rx:14}
+      .ln{stroke:#475569;stroke-width:1.6;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1400" height="860" fill="#ffffff"/>
+  <text x="30" y="40" class="h" style="font-size:24px">Quantum Commerce — camada de dados (Aula 2)</text>
+  <text x="30" y="62" class="s">us-east-1 no lab; em produção, dados pessoais em sa-east-1 (LGPD). Custos do Ex. 2.1 em US$/mês.</text>
+
+  <!-- consumidores -->
+  <rect x="30" y="90" width="1340" height="110" class="grp"/>
+  <text x="48" y="114" class="h">Consumidores</text>
+  <rect x="60" y="128" width="220" height="56" class="box"/><text x="76" y="152" class="t">Frontend / CloudFront</text><text x="76" y="171" class="s">catálogo, carrinho, checkout</text>
+  <rect x="320" y="128" width="260" height="56" class="box"/><text x="336" y="152" class="t">Agentes (Lambda / Fargate)</text><text x="336" y="171" class="s">role por função, sem chave no código</text>
+  <rect x="620" y="128" width="240" height="56" class="box"/><text x="636" y="152" class="t">Analistas / BI</text><text x="636" y="171" class="s">Athena sobre o lake</text>
+  <rect x="900" y="128" width="200" height="56" class="box"/><text x="916" y="152" class="t">Time de ML</text><text x="916" y="171" class="s">treino e inferência</text>
+  <rect x="1140" y="128" width="200" height="56" class="box sec"/><text x="1156" y="152" class="t">Secrets Manager</text><text x="1156" y="171" class="s">connection strings (GetSecretValue)</text>
+
+  <!-- relacional -->
+  <rect x="30" y="240" width="430" height="260" class="grp"/>
+  <text x="48" y="264" class="h">Relacional — dado que não pode errar</text>
+  <rect x="55" y="282" width="380" height="92" class="box rds"/>
+  <text x="70" y="306" class="t" style="font-weight:700">Produtos + Busca (pgvector híbrido)</text>
+  <text x="70" y="326" class="s">RDS PostgreSQL db.m5.large Multi-AZ, 100 GB</text>
+  <text x="70" y="344" class="s">5 M SKUs · embeddings 384 dim. (HNSW) + full-text</text>
+  <text x="70" y="362" class="s">US$ 282,88 (+ ≈ 396 se o índice precisar de db.r6g.xlarge)</text>
+  <rect x="55" y="392" width="380" height="92" class="box rds"/>
+  <text x="70" y="416" class="t" style="font-weight:700">Pedidos (~10 M/mês)</text>
+  <text x="70" y="436" class="s">RDS PostgreSQL db.r6g.xlarge Multi-AZ, 500 GB (12 meses)</text>
+  <text x="70" y="454" class="s">ACID · histórico antigo → S3/Athena</text>
+  <text x="70" y="472" class="s">US$ 771,27</text>
+
+  <!-- dynamodb -->
+  <rect x="490" y="240" width="430" height="260" class="grp"/>
+  <text x="508" y="264" class="h">DynamoDB on-demand — acesso por chave</text>
+  <rect x="515" y="282" width="185" height="64" class="box ddb"/><text x="528" y="306" class="t">Clientes (~50 M)</text><text x="528" y="326" class="s">PK cliente_id · US$ 43,75</text>
+  <rect x="720" y="282" width="185" height="64" class="box ddb"/><text x="733" y="306" class="t">Carrinhos (TTL 24 h)</text><text x="733" y="326" class="s">~500 k ativos · US$ 71,88</text>
+  <rect x="515" y="362" width="185" height="64" class="box ddb"/><text x="528" y="386" class="t">Reviews (~30 M)</text><text x="528" y="406" class="s">PK produto_id · US$ 9,38</text>
+  <rect x="720" y="362" width="185" height="64" class="box ddb"/><text x="733" y="386" class="t">Sessões (TTL 30 min)</text><text x="733" y="406" class="s">~1 M ativas · US$ 81,25</text>
+  <text x="515" y="462" class="s">GSI por cliente_id para "reviews do cliente" (Ex. 2.3)</text>
+
+  <!-- lake -->
+  <rect x="950" y="240" width="420" height="260" class="grp"/>
+  <text x="968" y="264" class="h">S3 — lake e artefatos</text>
+  <rect x="975" y="282" width="370" height="64" class="box s3"/>
+  <text x="990" y="306" class="t">Navegação (clickstream, ~1,5 TB/mês)</text><text x="990" y="326" class="s">Firehose → Parquet · raw/ → curated/ (ano/mês) · US$ 79,25</text>
+  <rect x="975" y="362" width="370" height="64" class="box s3"/>
+  <text x="990" y="386" class="t">Athena (US$ 5/TB lido)</text><text x="990" y="406" class="s">consulta curated/ sem carregar em banco</text>
+  <rect x="975" y="442" width="370" height="44" class="box ml"/>
+  <text x="990" y="469" class="t">Modelos ML: S3 + SageMaker · US$ 84,18</text>
+
+  <!-- seguranca -->
+  <rect x="30" y="530" width="1340" height="90" class="grp"/>
+  <text x="48" y="554" class="h">Segurança e governança</text>
+  <text x="60" y="580" class="t">IAM por role (menor privilégio) · KMS em repouso · segredos só no Secrets Manager · CloudTrail</text>
+  <text x="60" y="602" class="s">raw/ só para engenharia de dados (tem PII); curated/ sem PII para análise · sa-east-1 para dado pessoal</text>
+
+  <!-- totais -->
+  <rect x="30" y="650" width="1340" height="70" class="box" style="fill:#f1f5f9"/>
+  <text x="50" y="680" class="h">Total estimado: ≈ US$ 1.424/mês (≈ US$ 17 mil/ano)</text>
+  <text x="50" y="704" class="s">Preços oficiais da AWS (us-east-1, on-demand). Fora: rede, backups extras, CloudWatch, Athena, OpenSearch e cache.</text>
+
+  <!-- setas (roteadas pelos vãos entre os grupos, sem cruzar caixas) -->
+  <path class="ln" d="M170,184 L170,240"/>
+  <path class="ln" d="M450,184 L450,214 L250,214 L250,240"/>
+  <path class="ln" d="M450,184 L450,214 L700,214 L700,240"/>
+  <path class="ln" d="M740,184 L740,222 L935,222 L935,394 L975,394"/>
+  <path class="ln" d="M960,184 L960,464 L975,464"/>
+  <text x="1140" y="194" class="s" fill="#b91c1c" style="font-size:11px">lido pela role, nunca no código</text>
+  <text x="30" y="760" class="s">Legenda: azul = relacional (RDS) · amarelo = DynamoDB · verde = S3/Athena · roxo = ML · vermelho = segredos</text>
+  <text x="30" y="784" class="s">Evidência do lab (Labs 1–3B) em evidencias/ · ambiente destruído ao final (terraform destroy).</text>
+</svg>

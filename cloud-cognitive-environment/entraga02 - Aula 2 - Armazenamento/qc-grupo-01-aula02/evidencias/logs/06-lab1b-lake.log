@@ -1,0 +1,45 @@
+✓ 200.000 pedidos em /tmp/qc-pedidos.csv (12.6 MB)
+→ Subindo para s3://qc-aula02-p8emdz/raw/pedidos/ (camada bruta)
+→ Criando a tabela qc.pedidos_raw sobre o CSV (schema-on-read)
+✓ Camada raw pronta. Agora: qc lake cura
+  Console: S3 → qc-aula02-p8emdz → raw/pedidos/ (um CSV, veja o tamanho)
+→ CTAS no Athena: o mesmo dado em Parquet, particionado por mês (~30 s)
+✓ Camada curated pronta: uma pasta por mês
+                             PRE mes=2025-10/
+                             PRE mes=2025-11/
+                             PRE mes=2025-12/
+                             PRE mes=2026-01/
+                             PRE mes=2026-02/
+                             PRE mes=2026-03/
+                             PRE mes=2026-04/
+                             PRE mes=2026-05/
+                             PRE mes=2026-06/
+                             PRE mes=2026-07/
+                             PRE mes=2026-08/
+                             PRE mes=2026-09/
+
+  raw/     : 12.6 MiB
+  curated/ : 2.4 MiB
+Agora: qc lake compara
+Pergunta: faturamento por categoria em setembro de 2026
+
+categoria         faturamento
+eletronicos       1.374563985E7
+moveis            6397293.73
+eletrodomesticos  4646156.89
+calcados          1948749.07
+vestuario         247695.21
+acessorios        185580.39
+
+Mesmo resultado nas duas camadas.
+
+  raw/ (CSV)          leu   12.63 MB
+  curated/ (Parquet)  leu    23.2 KB   (557x menos)
+
+Se o CSV tivesse 1 TB (Athena: US$ 5 por TB lido):
+  CSV     : 1 TB lido → US$ 5,00 por consulta → US$ 15.000/mês com 100 consultas/dia
+  Parquet : 1,8 GB lidos → US$ 0,0090 por consulta → US$ 26,92/mês
+
+No lab a fatura é de centavos: o Athena cobra no mínimo 10 MB por consulta.
+Console: Athena → Recent queries → coluna Data scanned das duas consultas.
+Pergunta: quem decide o formato do lake na empresa de vocês? E quem paga a consulta?

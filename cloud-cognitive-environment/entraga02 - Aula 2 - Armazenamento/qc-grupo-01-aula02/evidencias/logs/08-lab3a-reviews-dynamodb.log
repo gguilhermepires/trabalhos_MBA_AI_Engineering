@@ -1,0 +1,35 @@
+→ Inserindo 30 reviews em qc-aula02-p8emdz-reviews...
+✓ 30 reviews inseridas
+
+=== Reviews 4+ do produto 5 ===
+  [score 5] Produto excelente, recomendo demais.
+  [score 4] Bom produto, mas a embalagem chegou amassada.
+
+(capacidade consumida: a query leu só a partição produto_id=5 — 2 itens)
+--- tabela:
+{
+    "Chaves": [
+        [
+            "produto_id",
+            "HASH"
+        ],
+        [
+            "review_id",
+            "RANGE"
+        ]
+    ],
+    "Modo": "PAY_PER_REQUEST",
+    "Itens": 0
+}
+--- QUERY por produto_id=5 (usa a chave):
+{
+    "Itens": 2,
+    "Lidos": 2,
+    "RCU": 0.5
+}
+--- SCAN com contains(texto,embalagem) (sem chave):
+{
+    "Achados": 5,
+    "Lidos": 30,
+    "RCU": 2.0
+}

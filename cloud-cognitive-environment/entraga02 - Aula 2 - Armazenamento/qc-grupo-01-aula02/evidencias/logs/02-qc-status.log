@@ -1,0 +1,9 @@
+Bucket    : qc-aula02-p8emdz
+Segredo   : qc-aula02-p8emdz/postgres
+DynamoDB  : qc-aula02-p8emdz-reviews
+RDS       : qc-aula02-p8emdz.cngl4jrkaxa5.us-east-1.rds.amazonaws.com
+Athena    : workgroup qc-aula02-p8emdz, banco qc
+Senha RDS : recuperada
+
+catalogo/ no bucket:
+  2026-11-17 08:40:41          0 

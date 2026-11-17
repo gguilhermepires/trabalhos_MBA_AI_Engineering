@@ -1,0 +1,7 @@
+# Verificacao pos-destroy em 2026-11-17 08:55:51 WET (us-east-1)
+RDS qc-aula02:        nenhum
+Buckets qc-aula02:    nenhum
+DynamoDB qc-aula02:   nenhuma
+Secrets qc-aula02:    nenhum
+Athena workgroups:    primary
+Glue databases:       default

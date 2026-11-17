@@ -1,0 +1,4 @@
+✓ produtos.csv enviado para s3://qc-aula02-p8emdz/catalogo/
+  2026-11-17 08:40:41          0 
+  2026-11-17 08:46:29       2075 produtos.csv
+Console: S3 → Buckets → qc-aula02-p8emdz → catalogo/produtos.csv → Properties

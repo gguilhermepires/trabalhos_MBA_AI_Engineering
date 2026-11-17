@@ -1,0 +1,41 @@
+=== DDL da tabela curated (Parquet, particionada por mes):
+CREATE EXTERNAL TABLE `qc.pedidos_curated`(
+  `pedido_id` string, 
+  `data` string, 
+  `cliente_id` int, 
+  `produto_id` int, 
+  `categoria` string, 
+  `uf` string, 
+  `canal` string, 
+  `quantidade` int, 
+  `valor` double)
+PARTITIONED BY ( 
+  `mes` string)
+ROW FORMAT SERDE 
+  'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe' 
+STORED AS INPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat' 
+OUTPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  's3://qc-aula02-p8emdz/curated/pedidos/'
+TBLPROPERTIES (
+  'auto.purge'='false', 
+  'has_encrypted_data'='false', 
+  'numFiles'='-1', 
+  'parquet.compression'='SNAPPY', 
+  'totalSize'='-1', 
+  'transactional'='false', 
+  'trino_query_id'='20261117_084734_00196_b5htw', 
+  'trino_version'='0.215-24703-ge9fffe8')
+(lidos: 0 bytes)
+
+=== tamanhos no S3:
+2026-11-17 08:47:29   12.6 MiB raw/pedidos/pedidos.csv
+
+Total Objects: 2
+   Total Size: 12.6 MiB
+2026-11-17 08:47:36  199.9 KiB curated/pedidos/mes=2026-09/20261117_084734_00196_b5htw_de61f3c4-3455-4624-bc3b-4986d3be4466
+
+Total Objects: 13
+   Total Size: 2.4 MiB

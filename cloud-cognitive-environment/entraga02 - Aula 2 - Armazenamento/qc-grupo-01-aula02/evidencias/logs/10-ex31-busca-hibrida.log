@@ -1,0 +1,36 @@
+
+Consulta: "Dell Inspiron"
+  Palavra (full-text, português)
+     1. Notebook Dell Inspiron 15  (R$ 4299.00)
+  Vetor (pgvector, sentido)
+     1. Notebook Dell Inspiron 15  (R$ 4299.00)
+     2. Tênis Adidas Ultraboost 23  (R$ 899.90)
+     3. Smartphone Samsung Galaxy S24  (R$ 3999.00)
+  Híbrido (RRF = Σ 1/(60+posição))
+     1. Notebook Dell Inspiron 15  (R$ 4299.00)
+     2. Tênis Adidas Ultraboost 23  (R$ 899.90)
+     3. Smartphone Samsung Galaxy S24  (R$ 3999.00)
+
+Consulta: "algo para trabalhar em pé"
+  Palavra (full-text, português)
+     (nenhum resultado)
+  Vetor (pgvector, sentido)
+     1. Cadeira Home Office Confortável  (R$ 799.00)
+     2. Mesa de Escritório com Regulagem de Altura  (R$ 2899.00)
+     3. Cadeira Ergonômica DXRacer  (R$ 1499.90)
+  Híbrido (RRF = Σ 1/(60+posição))
+     1. Cadeira Home Office Confortável  (R$ 799.00)
+     2. Mesa de Escritório com Regulagem de Altura  (R$ 2899.00)
+     3. Cadeira Ergonômica DXRacer  (R$ 1499.90)
+
+Consulta: "presente para quem gosta de correr"
+  Palavra (full-text, português)
+     (nenhum resultado)
+  Vetor (pgvector, sentido)
+     1. Cadeira Gamer Vermelha  (R$ 1299.00)
+     2. Tênis Adidas Ultraboost 23  (R$ 899.90)
+     3. Tênis Nike Air Zoom Pegasus 40  (R$ 799.90)
+  Híbrido (RRF = Σ 1/(60+posição))
+     1. Cadeira Gamer Vermelha  (R$ 1299.00)
+     2. Tênis Adidas Ultraboost 23  (R$ 899.90)
+     3. Tênis Nike Air Zoom Pegasus 40  (R$ 799.90)

@@ -1,0 +1,51 @@
+→ Instalando no venv /tmp/venv-qc: boto3 psycopg[binary] (só na primeira vez)
+
+[notice] A new release of pip is available: 24.2 -> 26.3
+[notice] To update, run: pip install --upgrade pip
+→ Lendo connection string de qc-aula02-p8emdz/postgres...
+✓ Connection string obtida (não vamos imprimi-la)
+→ Baixando s3://qc-aula02-p8emdz/catalogo/produtos.csv...
+✓ 20 produtos lidos do S3
+→ Conectando no RDS PostgreSQL...
+✓ Tabela t_produtos criada
+✓ 20 produtos inseridos
+
+=== Resultado ===
+Total de produtos: 20
+Top 3 mais caros:
+  #2 - Notebook Dell Inspiron 15 - R$ 4299.00
+  #5 - Smartphone Samsung Galaxy S24 - R$ 3999.00
+  #15 - Smart TV 55 4K - R$ 3499.00
+--- onde o codigo le a senha:
+12:    SECRET_ID    — nome do segredo (terraform output -raw secret_id)
+27:    secret_id = os.environ["SECRET_ID"]
+30:    sm = boto3.client("secretsmanager")  # usa a LabRole do CloudShell
+--- metadados do segredo (sem o valor):
+{
+    "Nome": "qc-aula02-p8emdz/postgres",
+    "Criado": "2026-11-17T08:40:36.384000+00:00",
+    "Rotacao": null
+}
+--- quem le o segredo:
+arn:aws:sts::924438851703:assumed-role/voclabs/user5671318=Ricardo_Almeida
+count
+-----
+20   
+(1 linha)
+nome                                       | preco  
+-------------------------------------------+--------
+Notebook Dell Inspiron 15                  | 4299.00
+Smartphone Samsung Galaxy S24              | 3999.00
+Smart TV 55 4K                             | 3499.00
+Geladeira Frost Free 400L                  | 3299.00
+Mesa de Escritório com Regulagem de Altura | 2899.00
+(5 linhas)
+categoria        | qtd | preco_medio
+-----------------+-----+------------
+calcados         | 3   | 653.23     
+eletrodomesticos | 5   | 925.18     
+vestuario        | 2   | 119.90     
+moveis           | 4   | 1624.23    
+eletronicos      | 5   | 2779.00    
+acessorios       | 1   | 189.90     
+(6 linhas)

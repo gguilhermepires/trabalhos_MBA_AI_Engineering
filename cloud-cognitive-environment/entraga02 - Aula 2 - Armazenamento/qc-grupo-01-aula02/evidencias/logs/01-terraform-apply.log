@@ -1,0 +1,585 @@
+Initializing the backend...
+Initializing modules...
+Initializing provider plugins...
+- terraform.io/builtin/terraform is built in to Terraform
+- Reusing previous version of hashicorp/http from the dependency lock file
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Reusing previous version of hashicorp/random from the dependency lock file
+- Using previously-installed hashicorp/http v3.6.3
+- Using previously-installed hashicorp/aws v5.100.0
+- Using previously-installed hashicorp/random v3.9.1
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+data.http.meu_ip: Reading...
+data.http.meu_ip: Read complete after 0s [id=https://checkip.amazonaws.com]
+module.bucket_qc.data.aws_default_tags.atual: Reading...
+data.aws_vpc.padrao: Reading...
+module.bucket_qc.data.aws_default_tags.atual: Read complete after 0s [id=aws]
+data.aws_vpc.padrao: Read complete after 1s [id=vpc-038d479b27924e3de]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_athena_workgroup.qc will be created
+  + resource "aws_athena_workgroup" "qc" {
+      + arn           = (known after apply)
+      + description   = "Consultas da Aula 2 (resultados em s3://<bucket>/athena/)"
+      + force_destroy = true
+      + id            = (known after apply)
+      + name          = (known after apply)
+      + state         = "ENABLED"
+      + tags_all      = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+
+      + configuration {
+          + enforce_workgroup_configuration    = false
+          + publish_cloudwatch_metrics_enabled = true
+          + requester_pays_enabled             = false
+
+          + result_configuration {
+              + output_location = (known after apply)
+            }
+        }
+    }
+
+  # aws_db_instance.qc will be created
+  + resource "aws_db_instance" "qc" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 20
+      + apply_immediately                     = true
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = 0
+      + backup_target                         = (known after apply)
+      + backup_window                         = (known after apply)
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + database_insights_mode                = (known after apply)
+      + db_name                               = "qcdb"
+      + db_subnet_group_name                  = (known after apply)
+      + dedicated_log_volume                  = false
+      + delete_automated_backups              = true
+      + deletion_protection                   = false
+      + domain_fqdn                           = (known after apply)
+      + endpoint                              = (known after apply)
+      + engine                                = "postgres"
+      + engine_lifecycle_support              = (known after apply)
+      + engine_version                        = "16"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = (known after apply)
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t3.micro"
+      + iops                                  = (known after apply)
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + listener_endpoint                     = (known after apply)
+      + maintenance_window                    = (known after apply)
+      + master_user_secret                    = (known after apply)
+      + master_user_secret_kms_key_id         = (known after apply)
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = (known after apply)
+      + nchar_character_set_name              = (known after apply)
+      + network_type                          = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = (known after apply)
+      + publicly_accessible                   = true
+      + replica_mode                          = (known after apply)
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_encrypted                     = true
+      + storage_throughput                    = (known after apply)
+      + storage_type                          = "gp3"
+      + tags_all                              = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + timezone                              = (known after apply)
+      + username                              = "qcadmin"
+      + vpc_security_group_ids                = (known after apply)
+    }
+
+  # aws_dynamodb_table.reviews will be created
+  + resource "aws_dynamodb_table" "reviews" {
+      + arn              = (known after apply)
+      + billing_mode     = "PAY_PER_REQUEST"
+      + hash_key         = "produto_id"
+      + id               = (known after apply)
+      + name             = (known after apply)
+      + range_key        = "review_id"
+      + read_capacity    = (known after apply)
+      + stream_arn       = (known after apply)
+      + stream_label     = (known after apply)
+      + stream_view_type = (known after apply)
+      + tags_all         = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + write_capacity   = (known after apply)
+
+      + attribute {
+          + name = "produto_id"
+          + type = "N"
+        }
+      + attribute {
+          + name = "review_id"
+          + type = "S"
+        }
+
+      + point_in_time_recovery (known after apply)
+
+      + server_side_encryption (known after apply)
+
+      + ttl (known after apply)
+    }
+
+  # aws_glue_catalog_database.qc will be created
+  + resource "aws_glue_catalog_database" "qc" {
+      + arn          = (known after apply)
+      + catalog_id   = (known after apply)
+      + description  = "Tabelas do Athena sobre o bucket da QC (Aula 2)"
+      + id           = (known after apply)
+      + location_uri = (known after apply)
+      + name         = "qc"
+      + tags_all     = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+
+      + create_table_default_permission (known after apply)
+    }
+
+  # aws_s3_bucket_lifecycle_configuration.logs will be created
+  + resource "aws_s3_bucket_lifecycle_configuration" "logs" {
+      + bucket                                 = (known after apply)
+      + expected_bucket_owner                  = (known after apply)
+      + id                                     = (known after apply)
+      + transition_default_minimum_object_size = "all_storage_classes_128K"
+
+      + rule {
+          + id     = "logs-lifecycle"
+          + status = "Enabled"
+            # (1 unchanged attribute hidden)
+
+          + expiration {
+              + days                         = 365
+              + expired_object_delete_marker = false
+            }
+
+          + filter {
+              + prefix = "logs/"
+            }
+
+          + transition {
+              + days          = 30
+              + storage_class = "STANDARD_IA"
+            }
+          + transition {
+              + days          = 90
+              + storage_class = "GLACIER"
+            }
+        }
+    }
+
+  # aws_s3_bucket_public_access_block.qc will be created
+  + resource "aws_s3_bucket_public_access_block" "qc" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + restrict_public_buckets = true
+    }
+
+  # aws_s3_bucket_server_side_encryption_configuration.qc will be created
+  + resource "aws_s3_bucket_server_side_encryption_configuration" "qc" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+
+      + rule {
+          + apply_server_side_encryption_by_default {
+              + sse_algorithm     = "AES256"
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # aws_s3_object.prefixos["catalogo/"] will be created
+  + resource "aws_s3_object" "prefixos" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = (known after apply)
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "catalogo/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.prefixos["curated/"] will be created
+  + resource "aws_s3_object" "prefixos" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = (known after apply)
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "curated/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.prefixos["imagens/"] will be created
+  + resource "aws_s3_object" "prefixos" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = (known after apply)
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "imagens/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.prefixos["logs/"] will be created
+  + resource "aws_s3_object" "prefixos" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = (known after apply)
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "logs/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_object.prefixos["raw/"] will be created
+  + resource "aws_s3_object" "prefixos" {
+      + acl                    = (known after apply)
+      + arn                    = (known after apply)
+      + bucket                 = (known after apply)
+      + bucket_key_enabled     = (known after apply)
+      + checksum_crc32         = (known after apply)
+      + checksum_crc32c        = (known after apply)
+      + checksum_crc64nvme     = (known after apply)
+      + checksum_sha1          = (known after apply)
+      + checksum_sha256        = (known after apply)
+      + content_type           = (known after apply)
+      + etag                   = (known after apply)
+      + force_destroy          = false
+      + id                     = (known after apply)
+      + key                    = "raw/"
+      + kms_key_id             = (known after apply)
+      + server_side_encryption = (known after apply)
+      + storage_class          = (known after apply)
+      + tags_all               = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + version_id             = (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_secretsmanager_secret.postgres will be created
+  + resource "aws_secretsmanager_secret" "postgres" {
+      + arn                            = (known after apply)
+      + description                    = "Connection string do RDS PostgreSQL da QC (Aula 2)"
+      + force_overwrite_replica_secret = false
+      + id                             = (known after apply)
+      + name                           = (known after apply)
+      + name_prefix                    = (known after apply)
+      + policy                         = (known after apply)
+      + recovery_window_in_days        = 0
+      + tags_all                       = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+
+      + replica (known after apply)
+    }
+
+  # aws_secretsmanager_secret_version.postgres will be created
+  + resource "aws_secretsmanager_secret_version" "postgres" {
+      + arn                  = (known after apply)
+      + has_secret_string_wo = (known after apply)
+      + id                   = (known after apply)
+      + secret_id            = (known after apply)
+      + secret_string        = (sensitive value)
+      + version_id           = (known after apply)
+      + version_stages       = (known after apply)
+    }
+
+  # aws_security_group.rds will be created
+  + resource "aws_security_group" "rds" {
+      + arn                    = (known after apply)
+      + description            = "PostgreSQL liberado apenas para o IP do CloudShell"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "98.81.162.145/32",
+                ]
+              + description      = "PostgreSQL a partir do CloudShell"
+              + from_port        = 5432
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "tcp"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 5432
+            },
+        ]
+      + name                   = (known after apply)
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + tags_all               = {
+          + "aula"         = "2"
+          + "disciplina"   = "cloud-cognitive"
+          + "projeto"      = "quantum-commerce"
+          + "provisionado" = "terraform"
+        }
+      + vpc_id                 = "vpc-038d479b27924e3de"
+    }
+
+  # random_string.sufixo will be created
+  + resource "random_string" "sufixo" {
+      + id          = (known after apply)
+      + length      = 6
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = false
+      + upper       = false
+    }
+
+  # module.bucket_qc.terraform_data.bucket will be created
+  + resource "terraform_data" "bucket" {
+      + id     = (known after apply)
+      + input  = {
+          + nome   = (known after apply)
+          + regiao = "us-east-1"
+        }
+      + output = (known after apply)
+    }
+
+Plan: 17 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + athena_workgroup = (known after apply)
+  + bucket_name      = (known after apply)
+  + db_endpoint      = (known after apply)
+  + db_name          = "qcdb"
+  + dynamodb_table   = (known after apply)
+  + glue_database    = "qc"
+  + meu_ip           = "98.81.162.145/32"
+  + secret_id        = (known after apply)
+random_string.sufixo: Creating...
+random_string.sufixo: Creation complete after 0s [id=p8emdz]
+module.bucket_qc.terraform_data.bucket: Creating...
+module.bucket_qc.terraform_data.bucket: Provisioning with 'local-exec'...
+module.bucket_qc.terraform_data.bucket (local-exec): Executing: ["bash" "-c" "set -euo pipefail\nif aws s3api head-bucket --bucket \"$BUCKET\" >/dev/null 2>&1; then\n  echo \"Bucket $BUCKET já existe na conta: reaproveitando.\"\nelif [ \"$REGIAO\" = \"us-east-1\" ]; then\n  aws s3api create-bucket --bucket \"$BUCKET\" --region \"$REGIAO\" >/dev/null\nelse\n  aws s3api create-bucket --bucket \"$BUCKET\" --region \"$REGIAO\" \\\n    --create-bucket-configuration \"LocationConstraint=$REGIAO\" >/dev/null\nfi\naws s3api wait bucket-exists --bucket \"$BUCKET\"\nif [ \"$TAGGING\" != '{\"TagSet\":[]}' ]; then\n  aws s3api put-bucket-tagging --bucket \"$BUCKET\" --tagging \"$TAGGING\"\nfi\necho \"Bucket $BUCKET pronto.\"\n"]
+aws_security_group.rds: Creating...
+aws_glue_catalog_database.qc: Creating...
+aws_secretsmanager_secret.postgres: Creating...
+aws_dynamodb_table.reviews: Creating...
+aws_secretsmanager_secret.postgres: Creation complete after 1s [id=arn:aws:secretsmanager:us-east-1:924438851703:secret:qc-aula02-p8emdz/postgres-nMOGNw]
+aws_glue_catalog_database.qc: Creation complete after 1s [id=924438851703:qc]
+aws_security_group.rds: Creation complete after 3s [id=sg-069c8298254c428e0]
+aws_db_instance.qc: Creating...
+module.bucket_qc.terraform_data.bucket (local-exec): Bucket qc-aula02-p8emdz pronto.
+module.bucket_qc.terraform_data.bucket: Creation complete after 5s [id=467b0e50-e1a3-a690-7b29-3c6a16dfd4c4]
+aws_s3_object.prefixos["curated/"]: Creating...
+aws_s3_bucket_server_side_encryption_configuration.qc: Creating...
+aws_s3_object.prefixos["imagens/"]: Creating...
+aws_athena_workgroup.qc: Creating...
+aws_s3_bucket_public_access_block.qc: Creating...
+aws_s3_object.prefixos["catalogo/"]: Creating...
+aws_s3_object.prefixos["logs/"]: Creating...
+aws_s3_bucket_lifecycle_configuration.logs: Creating...
+aws_s3_object.prefixos["imagens/"]: Creation complete after 0s [id=imagens/]
+aws_s3_object.prefixos["catalogo/"]: Creation complete after 0s [id=catalogo/]
+aws_s3_object.prefixos["raw/"]: Creating...
+aws_s3_object.prefixos["curated/"]: Creation complete after 0s [id=curated/]
+aws_s3_object.prefixos["logs/"]: Creation complete after 0s [id=logs/]
+aws_s3_bucket_public_access_block.qc: Creation complete after 0s [id=qc-aula02-p8emdz]
+aws_s3_object.prefixos["raw/"]: Creation complete after 0s [id=raw/]
+aws_s3_bucket_server_side_encryption_configuration.qc: Creation complete after 0s [id=qc-aula02-p8emdz]
+aws_athena_workgroup.qc: Creation complete after 0s [id=qc-aula02-p8emdz]
+aws_dynamodb_table.reviews: Creation complete after 7s [id=qc-aula02-p8emdz-reviews]
+aws_db_instance.qc: Still creating... [10s elapsed]
+aws_s3_bucket_lifecycle_configuration.logs: Still creating... [10s elapsed]
+aws_db_instance.qc: Still creating... [20s elapsed]
+aws_s3_bucket_lifecycle_configuration.logs: Still creating... [20s elapsed]
+aws_db_instance.qc: Still creating... [30s elapsed]
+aws_s3_bucket_lifecycle_configuration.logs: Still creating... [30s elapsed]
+aws_db_instance.qc: Still creating... [40s elapsed]
+aws_s3_bucket_lifecycle_configuration.logs: Still creating... [40s elapsed]
+aws_db_instance.qc: Still creating... [50s elapsed]
+aws_s3_bucket_lifecycle_configuration.logs: Still creating... [50s elapsed]
+aws_s3_bucket_lifecycle_configuration.logs: Creation complete after 56s [id=qc-aula02-p8emdz]
+aws_db_instance.qc: Still creating... [1m0s elapsed]
+aws_db_instance.qc: Still creating... [1m10s elapsed]
+aws_db_instance.qc: Still creating... [1m20s elapsed]
+aws_db_instance.qc: Still creating... [1m30s elapsed]
+aws_db_instance.qc: Still creating... [1m40s elapsed]
+aws_db_instance.qc: Still creating... [1m50s elapsed]
+aws_db_instance.qc: Still creating... [2m0s elapsed]
+aws_db_instance.qc: Still creating... [2m10s elapsed]
+aws_db_instance.qc: Still creating... [2m20s elapsed]
+aws_db_instance.qc: Still creating... [2m30s elapsed]
+aws_db_instance.qc: Still creating... [2m40s elapsed]
+aws_db_instance.qc: Still creating... [2m50s elapsed]
+aws_db_instance.qc: Still creating... [3m0s elapsed]
+aws_db_instance.qc: Still creating... [3m10s elapsed]
+aws_db_instance.qc: Still creating... [3m20s elapsed]
+aws_db_instance.qc: Still creating... [3m30s elapsed]
+aws_db_instance.qc: Still creating... [3m40s elapsed]
+aws_db_instance.qc: Still creating... [3m50s elapsed]
+aws_db_instance.qc: Still creating... [4m0s elapsed]
+aws_db_instance.qc: Still creating... [4m10s elapsed]
+aws_db_instance.qc: Still creating... [4m20s elapsed]
+aws_db_instance.qc: Still creating... [4m30s elapsed]
+aws_db_instance.qc: Still creating... [4m40s elapsed]
+aws_db_instance.qc: Still creating... [4m50s elapsed]
+aws_db_instance.qc: Still creating... [5m0s elapsed]
+aws_db_instance.qc: Creation complete after 5m5s [id=db-BOWOQ5SSDU72WJCB2TTWNG3QY4]
+aws_secretsmanager_secret_version.postgres: Creating...
+aws_secretsmanager_secret_version.postgres: Creation complete after 1s [id=arn:aws:secretsmanager:us-east-1:924438851703:secret:qc-aula02-p8emdz/postgres-nMOGNw|terraform-20261117084544411600000002]
+
+Apply complete! Resources: 17 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+athena_workgroup = "qc-aula02-p8emdz"
+bucket_name = "qc-aula02-p8emdz"
+db_endpoint = "qc-aula02-p8emdz.cngl4jrkaxa5.us-east-1.rds.amazonaws.com"
+db_name = "qcdb"
+dynamodb_table = "qc-aula02-p8emdz-reviews"
+glue_database = "qc"
+meu_ip = "98.81.162.145/32"
+secret_id = "qc-aula02-p8emdz/postgres"

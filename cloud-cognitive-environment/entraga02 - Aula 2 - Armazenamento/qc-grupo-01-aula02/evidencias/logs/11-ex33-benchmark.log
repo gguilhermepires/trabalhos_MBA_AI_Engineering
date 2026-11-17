@@ -1,0 +1,10 @@
+
+Consulta: "cadeira ergonômica para dor lombar"  (palavras usadas nas buscas por texto: ['cadeira', 'ergonômica', 'para', 'lombar'])
+Modo                          média ms   mín ms   máx ms  top 3
+RDS ILIKE                          0.9      0.5      3.1  Cadeira Ergonômica DXRacer | Tênis Nike Air Zoom Pegasus 40 | Cadeira Gamer Vermelha
+DynamoDB Scan contains()         210.6      8.6   1014.8  Cadeira Gamer Vermelha | Tênis Adidas Ultraboost 23 | Tênis Nike Air Zoom Pegasus 40
+pgvector (sentido)                14.0     13.1     15.6  Cadeira Ergonômica DXRacer | Cadeira Gamer Vermelha | Cadeira Home Office Confortável
+
+DynamoDB Scan: leu 20 itens e consumiu 2.0 RCU por consulta (a tabela do lab tem 20 itens; o custo cresce com o tamanho da tabela inteira)
+
+(tabela temporária qc-aula02-p8emdz-reviews-bench apagada)
