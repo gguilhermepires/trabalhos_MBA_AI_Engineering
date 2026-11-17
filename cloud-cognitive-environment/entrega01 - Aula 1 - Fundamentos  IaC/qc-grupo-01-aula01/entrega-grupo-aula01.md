@@ -122,26 +122,28 @@
 
 ### Exercício 2.2 — Comparativo de custos: 3 provedores
 
-> ⚠️ **Valores estimados** a partir das tabelas públicas de preço on-demand (região EUA Leste, Linux, USD/mês, 730 h/mês). **Antes de entregar, o grupo deve conferir cada linha nas calculadoras oficiais** (calculator.aws, azure.microsoft.com/pricing/calculator, cloud.google.com/products/calculator) e anexar os prints/exports se possível. Preços mudam e variam por região.
+> ✅ **Valores conferidos nas calculadoras oficiais** (calculator.aws, azure.microsoft.com/pricing/calculator, cloud.google.com/products/calculator) em 17/11/2026, preço on-demand, Linux, região EUA (AWS us-east-2 Ohio, Azure East US, GCP us-central1 Iowa), USD/mês, 730 h/mês, sem créditos nem free tier de conta nova. Os prints estão em `evidencias/2.2-*.jpg`. Preços mudam e variam por região.
 
 **Premissas:** VM 2 vCPU/8 GB (24/7); 500 GB de object storage (camada padrão); banco PostgreSQL gerenciado 2 vCPU/8 GB/100 GB SSD, instância única (sem alta disponibilidade); 10 M req/mês em função serverless com 512 MB e ~200 ms por execução.
 
 | Item | AWS | Azure | GCP | Notas |
 |------|-----|-------|-----|-------|
-| 2 × VM (2 vCPU/8 GB) | US$ 140 | US$ 140 | US$ 98 | Tipo: AWS `m5.large`; Azure `D2s_v5`; GCP `e2-standard-2` |
-| 500 GB storage | US$ 11,5 | US$ 9,2 | US$ 10 | Tipo: S3 Standard; Blob Hot (LRS); Cloud Storage Standard |
-| Banco gerenciado | US$ 141 | US$ 135 | US$ 118 | Tipo: RDS PostgreSQL `db.m5.large` + 100 GB gp3; Azure Flexible Server 2 vCore; Cloud SQL 2 vCPU/8 GB + SSD |
-| 10 M req serverless | US$ 12 | US$ 12 | US$ 12 | Tipo: Lambda; Functions Consumption; Cloud Functions (≈ 1 M GB-s + requisições, descontados os níveis gratuitos) |
-| **Total mensal** | **≈ US$ 305** | **≈ US$ 296** | **≈ US$ 238** | |
-| **Total anual** | **≈ US$ 3.660** | **≈ US$ 3.550** | **≈ US$ 2.850** | |
+| 2 × VM (2 vCPU/8 GB) | US$ 140,16 | US$ 140,16 | US$ 99,84 | Tipo: AWS `m5.large` (On-Demand, não Savings Plan); Azure `D2s v5`; GCP `e2-standard-2` |
+| 500 GB storage | US$ 11,50 | US$ 11,44 | US$ 9,90 | Tipo: S3 Standard; Blob Hot (LRS), já com operações padrão da calculadora; Cloud Storage Standard |
+| Banco gerenciado | US$ 141,44 | US$ 141,44 | US$ 118,18 | Tipo: RDS PostgreSQL `db.m5.large` Single-AZ + 100 GB gp2 (sem RDS Proxy nem Database Insights); Azure Flexible Server `D2ds v5` + 100 GiB Premium SSD; Cloud SQL 2 vCPU/8 GiB + 100 GiB SSD |
+| 10 M req serverless | US$ 11,80 | US$ 11,40 | US$ 53,70 | Tipo: Lambda 512 MB/200 ms; Functions Consumption 512 MB/200 ms; Cloud Run (concorrência 20, tráfego estável, sem instância mínima), a entrada "funções" da calculadora do GCP |
+| **Total mensal** | **US$ 304,90** | **US$ 304,44** | **US$ 281,61** | |
+| **Total anual** | **≈ US$ 3.659** | **≈ US$ 3.653** | **≈ US$ 3.379** | |
+
+Prints: AWS `2.2-aws-01…05`, Azure `2.2-azure-01…03`, GCP `2.2-gcp-01…04` (a pasta `evidencias/`).
 
 **Análise**
 
 **a) Qual ficou mais barato? A diferença é significativa?**
-O GCP ficou mais barato (≈ US$ 238/mês), cerca de 22% abaixo da AWS e 20% abaixo do Azure. AWS e Azure ficaram praticamente empatados (diferença de ~3%). A diferença do GCP vem principalmente das VMs e do banco. Para um projeto pequeno, são ~US$ 800/ano, o que é relevante mas não decisivo sozinho.
+O GCP ficou mais barato (US$ 281,61/mês), cerca de 7,6% abaixo da AWS e 7,5% abaixo do Azure. AWS e Azure ficaram praticamente empatados (diferença de 0,1%). São ~US$ 280/ano de diferença, o que não é decisivo sozinho para um projeto pequeno. A vantagem do GCP vem das VMs e do banco; já na linha serverless a calculadora do GCP deu US$ 53,70 contra ~US$ 12 de AWS e Azure, porque o Cloud Run cobra CPU e memória alocadas por instância. Sem essa linha, o GCP seria ~22% mais barato (US$ 227,92 contra US$ 293,10 da AWS), então o resultado depende do modelo serverless escolhido, não só do preço por hora.
 
 **b) Reserved Instances de 1 ano no mais caro (AWS) mudam o resultado?**
-Sim. Com RI de 1 ano (sem pagamento antecipado), VMs e RDS caem cerca de 35–40%: EC2 ≈ US$ 88 e RDS ≈ US$ 83 + US$ 11,5 de disco. O total AWS vai a ≈ **US$ 205/mês (≈ US$ 2.470/ano)**, abaixo do GCP on-demand. Para ser justo, o GCP com Committed Use Discount de 1 ano também baixaria (~25–30%), então o ranking depende de comparar compromisso com compromisso. A lição é que **o modelo de contratação pesa mais que o provedor**.
+Sim. Com RI de 1 ano (sem pagamento antecipado), VMs e RDS caem cerca de 35–40%: EC2 ≈ US$ 88 e RDS ≈ US$ 83 + US$ 11,50 de disco. O total AWS vai a ≈ **US$ 206/mês (≈ US$ 2.470/ano)**, abaixo do GCP on-demand (US$ 281,61). Esses valores de RI são estimativa a partir da tabela pública de preços (não foram simulados na calculadora). Para ser justo, o GCP com Committed Use Discount de 1 ano também baixaria (~25–30%), então o ranking depende de comparar compromisso com compromisso. A lição é que **o modelo de contratação pesa mais que o provedor**.
 
 **c) Outros fatores além de preço para um projeto de IA**
 - **Catálogo de IA:** modelos disponíveis (Bedrock, Azure OpenAI, Vertex AI), cotas e disponibilidade por região.
@@ -155,25 +157,32 @@ Sim. Com RI de 1 ano (sem pagamento antecipado), VMs e RDS caem cerca de 35–40
 
 ### Exercício 2.3 — Estratégia de migração (contexto profissional)
 
-> ✏️ **Rascunho genérico para o grupo adaptar ao contexto real de um membro.** Substitua pelo workload e pelos números da sua empresa.
+> ℹ️ **Empresa fictícia:** a **LogiFrio Distribuidora** e os números de uso abaixo (usuários, tamanho do banco, picos) são hipóteses criadas para o exercício. Os valores em US$ vêm da calculadora oficial da AWS (calculator.aws, 17/11/2026), com prints em `evidencias/2.3-*.jpg`.
 
-**a) Workload:** sistema interno de relatórios operacionais, rodando em dois servidores físicos on-premise. Aplicação web monolítica em Java com banco PostgreSQL. Cerca de 300 usuários, pico no fechamento do mês.
+**a) Workload:** a LogiFrio é uma distribuidora regional de alimentos refrigerados (~400 funcionários, 6 centros de distribuição). O sistema escolhido é o **WMS** (gestão de pedidos e estoque), uma aplicação web monolítica em Java com banco PostgreSQL de ~300 GB, rodando em **2 servidores físicos** no datacenter da sede. Tem ~250 usuários internos e uma API usada pelos clientes para consultar pedidos. O pico é no fechamento do mês e na semana de Natal.
 
 **b) R escolhido: Replatform.**
-- **Custo:** elimina hardware e licenças de virtualização; paga-se por uso, com RDS e instância gerenciada.
-- **Risco:** baixo/médio. O código muda pouco (só configuração de conexão e armazenamento de arquivos), sem reescrever regras de negócio.
-- **Ganho:** backup, patches e alta disponibilidade do banco passam a ser gerenciados; escalonamento no pico do mês.
-- **Prazo:** 6–8 semanas, contra 6+ meses de um Refactor.
+- **Custo:** elimina a renovação dos servidores e o suporte de hardware; passa a pagar por uso e a custo previsível (ver estimativa em c). A comparação com o custo atual on-premise deve ser feita pela LogiFrio.
+- **Risco:** médio/baixo. O código muda pouco (conexão com o banco e armazenamento de arquivos) e as regras de negócio ficam como estão. Rehost manteria o mesmo trabalho de patch e backup em EC2, e Refactor (reescrever o monolito) é caro e arriscado para um sistema crítico.
+- **Ganho:** banco gerenciado com backup, patches e failover automáticos (Multi-AZ); aplicação em contêineres que escala no pico; fim da dependência de hardware.
+- **Prazo:** 10–12 semanas (empacotar em contêiner, montar a rede e o banco, testar e migrar os dados), contra 6+ meses de um Refactor.
 
-**c) Serviços AWS e estimativa mensal (aproximada):**
-- App: ECS Fargate (2 tarefas) ou Elastic Beanstalk, ≈ US$ 60–90.
-- Banco: RDS PostgreSQL Multi-AZ `db.t3.large`, ≈ US$ 140–180.
-- Storage de arquivos: S3, ≈ US$ 5. Balanceador (ALB), ≈ US$ 20. Logs/monitoramento, ≈ US$ 15.
-- **Total estimado: ≈ US$ 250–320/mês.** Validar na calculadora AWS.
+**c) Serviços AWS e estimativa mensal** (calculadora AWS, região us-east-2, preço on-demand, sem free tier):
+
+| Serviço | Configuração | US$/mês |
+|---|---|---|
+| RDS for PostgreSQL | `db.m5.large` (2 vCPU/8 GB), **Multi-AZ**, 300 GB gp2 (sem RDS Proxy nem Database Insights) | 328,88 |
+| ECS Fargate | 2 tarefas de 1 vCPU/2 GB, 24×7 | 72,08 |
+| Application Load Balancer | 1 ALB, ~0,1 GB/h processado | 17,01 |
+| S3 Standard | 200 GB de documentos e anexos | 4,60 |
+| **Total** | | **≈ US$ 422,57/mês (≈ US$ 5.071/ano)** |
+
+- O banco é cerca de 78% do total. Em Single-AZ o RDS cairia para ≈ US$ 164 (instância US$ 129,94 + disco US$ 34,50), mas o WMS é crítico para a operação dos centros de distribuição, então mantemos Multi-AZ.
+- **Fora da estimativa:** AWS DMS (só durante a migração), tráfego de saída de dados, CloudWatch, backups acima do espaço gratuito, WAF e VPN entre a sede/CDs e a AWS.
 
 **d) Maior obstáculo e como endereçar:**
-- **Técnico:** migração do banco com janela curta de indisponibilidade. Usar AWS DMS com replicação contínua e fazer o *cutover* em fim de semana, com plano de rollback testado.
-- **Organizacional:** resistência da equipe de infraestrutura e falta de prática em cloud. Endereçar com piloto em ambiente de teste, treinamento curto e IaC (Terraform) para dar previsibilidade.
+- **Técnico:** migrar ~300 GB de banco com pouca janela de indisponibilidade, já que os centros de distribuição operam quase 24 h. Usar AWS DMS com carga inicial e replicação contínua (CDC), ensaiar o *cutover* em ambiente de teste e executá-lo num fim de semana fora do fechamento do mês, mantendo o banco on-premise como fallback por alguns dias (plano de rollback).
+- **Organizacional:** a equipe de infraestrutura tem pouca prática em cloud e teme perder o controle do ambiente. Endereçar com um piloto em ambiente de teste, treinamento curto e IaC (Terraform) para dar previsibilidade e revisão das mudanças.
 
 ---
 
@@ -289,21 +298,21 @@ Clientes → CDN/WAF → API Gateway (AWS) → agentes (Lambda/Fargate) ──�
 | | **Terraform** (HashiCorp/IBM) | **Pulumi** |
 |---|---|---|
 | Linguagem | HCL (declarativa, própria) | TypeScript, Python, Go, C#, Java (linguagens gerais) |
-| Pricing | CLI gratuito (licença BSL desde 2023; fork aberto: OpenTofu). HCP Terraform tem plano gratuito e pagos por recursos gerenciados. | SDK/CLI de código aberto; Pulumi Cloud tem plano individual gratuito e planos de equipe pagos. Também aceita backend próprio (S3, arquivo). |
+| Pricing | CLI gratuito (licença BSL desde 2023; fork aberto: OpenTofu). HCP Terraform (nuvem, hoje sob a marca IBM): Essentials a partir de US$ 0,10, Standard US$ 0,47 e Premium US$ 0,99 por recurso/mês, com US$ 500 de crédito inicial; Enterprise (autogerenciado) sob contrato. | SDK/CLI de código aberto. Pulumi Cloud: Free (US$ 0, 1 usuário), Essentials US$ 40/mês (usuários ilimitados, até 500 recursos gerenciados), Pro US$ 400/mês (até 2.000 recursos) e Enterprise sob contrato. Também aceita backend próprio (S3, arquivo). |
 | AWS / Azure / GCP | Providers oficiais para os três | Providers para os três (parte deles é ponte do provider do Terraform) |
 | Quando escolher | Padrão de mercado, maior comunidade e módulos prontos, equipes de infraestrutura/DevOps, contratação mais fácil. | Equipe de desenvolvimento que prefere código de verdade (loops, testes unitários, abstrações), lógica complexa e reuso com a aplicação. |
 
-✏️ Conferir os preços atuais nos sites oficiais antes de entregar.
+Preços conferidos nas páginas oficiais em 17/11/2026 (pulumi.com/pricing e hashicorp.com/en/pricing?tab=terraform), em USD e sujeitos a mudança. A parte de licença (BSL/OpenTofu) não foi reverificada.
 
 **Recomendação para a QC:** Terraform (ou OpenTofu), pela base instalada e por ser o que a disciplina já usa; Pulumi seria reconsiderado se o time de plataforma for majoritariamente de desenvolvedores Python/TypeScript.
 
 #### d) Egress de 10 TB/mês entre AWS (us-east-1) e Azure (Brazil South)
 
-> Valores **estimados** com as tabelas públicas de transferência de dados (saída para a internet, 10 TB = 10.240 GB). ✏️ Conferir em aws.amazon.com/ec2/pricing e azure.microsoft.com/pricing/details/bandwidth.
+> Valores **das calculadoras oficiais** (AWS Pricing Calculator e Azure Pricing Calculator) em 17/11/2026, com 10 TB = 10.240 GB. Prints: `evidencias/3.3-aws-egress-10tb-internet.jpg` e `evidencias/3.3-azure-egress-brazilsouth-10240gb.jpg`.
 
-- **AWS → Azure:** a AWS cobra a saída para a internet ≈ **US$ 0,09/GB** nos primeiros 10 TB (os primeiros 100 GB do mês são gratuitos). 10.140 GB × 0,09 ≈ **US$ 913/mês**. A entrada no Azure é gratuita.
-- **Azure (Brazil South) → AWS:** a saída do Azure na América do Sul é mais cara (≈ **US$ 0,15–0,18/GB**). 10.240 GB × 0,18 ≈ **US$ 1.840/mês** no pior caso.
-- **Conclusão:** ≈ US$ 11 mil/ano em um sentido e até ≈ US$ 22 mil/ano no outro, só de transferência, **sem contar computação**. Com interconexão privada dedicada (Direct Connect + ExpressRoute via provedor de colocation), o custo por GB cai bastante (na ordem de US$ 0,02/GB), mas há taxas fixas de porta e circuito.
+- **AWS → Azure:** AWS Data Transfer em us-east-1, saída para a Internet (US$ 0,05–0,09/GB conforme a faixa), 10 TB/mês: **US$ 921,60/mês**. A própria calculadora avisa que ainda não desconta os primeiros 100 GB gratuitos do mês; descontando, ficam ≈ **US$ 912,60/mês**. A entrada no Azure é gratuita.
+- **Azure (Brazil South) → AWS:** Azure Bandwidth, tipo *Internet Egress*, origem Brazil South, 10.240 GB, roteado pela Microsoft Global Network: **US$ 1.835,34/mês** (US$ 22.024,08/ano).
+- **Conclusão:** ≈ US$ 11 mil/ano em um sentido (AWS → Azure) e ≈ US$ 22 mil/ano no outro (Azure → AWS), só de transferência, **sem contar computação**. A saída do Azure na América do Sul custa quase o dobro da saída da AWS em us-east-1. Com interconexão privada dedicada (Direct Connect + ExpressRoute via provedor de colocation), o custo por GB cai bastante (ordem de grandeza de US$ 0,02/GB, **não simulado na calculadora**), mas há taxas fixas de porta e circuito.
 
 #### Dica avançada: AWS Outposts e Azure Arc
 
